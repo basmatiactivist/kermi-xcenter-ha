@@ -228,6 +228,12 @@
       "circuit_pump_hours": {
         "name": "Betriebsstunden Heizkreispumpe"
       },
+      "heater_power": {
+        "name": "Heizstab Leistung (ext. WEZ)"
+      },
+      "heater_hours": {
+        "name": "Laufzeit Heizstab (ext. WEZ)"
+      },
       "dhw_temp": {
         "name": "Warmwasser Isttemperatur"
       },

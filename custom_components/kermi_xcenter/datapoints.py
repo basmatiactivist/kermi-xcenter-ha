@@ -248,6 +248,14 @@ DATAPOINTS: tuple[Datapoint, ...] = (
         temp=True,
     ),
     _dp("hz_mixer_position", HZ, F, "HeatingCircuit_MixerPosition", "Mischeröffnung"),
+    _dp(
+        "hz_heater_power",
+        HZ,
+        F,
+        "BufferSystem_HeaterRequestedElectricalPower",
+        "aktuelle elektr. Leistung",
+    ),
+    _dp("hz_heater_hours", HZ, F, None, "Ext. WEZ Laufzeit"),
     _dp("hz_energy_mode", HZ, N, "HeatingCircuit_EnergyMode", "Energiemodus"),
     _dp("hz_summer_mode", HZ, B, "HeatingCircuit_SummerMode", "Sommerbetrieb"),
     _dp(
@@ -272,6 +280,14 @@ DATAPOINTS: tuple[Datapoint, ...] = (
         "Sollwert Einmalladung TWE",
         temp=True,
     ),
+    _dp(
+        "ww_heater_power",
+        WW,
+        F,
+        "BufferSystem_HeaterRequestedElectricalPower",
+        "aktuelle elektr. Leistung",
+    ),
+    _dp("ww_heater_hours", WW, F, None, "Ext. WEZ Laufzeit"),
     _dp("ww_one_time_charge", WW, B, "BufferSystem_OneTimeTwe", "Einmalladung TWE"),
     _dp(
         "ww_setpoint_constant",

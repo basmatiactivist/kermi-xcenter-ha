@@ -228,6 +228,12 @@
       "circuit_pump_hours": {
         "name": "Run hours heating circuit pump"
       },
+      "heater_power": {
+        "name": "Heater power (external heat generator)"
+      },
+      "heater_hours": {
+        "name": "Run hours heater (external heat generator)"
+      },
       "dhw_temp": {
         "name": "Hot water temperature"
       },

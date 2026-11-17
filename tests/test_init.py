@@ -71,6 +71,10 @@ async def test_setup_and_entities(hass: HomeAssistant, xcenter: FakeXCenter) -> 
     assert energy.state == "normal"
     assert energy.attributes["raw_value"] == 2
     assert float(_state(hass, "sensor", "dhw_dhw_temp").state) == pytest.approx(50.9)
+    heater = _state(hass, "sensor", "dhw_heater_power")
+    assert heater.attributes["unit_of_measurement"] == "kW"  # native W, shown in kW
+    assert float(heater.state) == 0.0
+    assert float(_state(hass, "sensor", "dhw_heater_hours").state) == 27
     assert _state(hass, "binary_sensor", "heat_pump_heating_active").state == STATE_ON
     assert _state(hass, "binary_sensor", "heat_pump_dhw_active").state == STATE_OFF
     assert _state(hass, "binary_sensor", "heat_pump_global_alarm").state == STATE_OFF

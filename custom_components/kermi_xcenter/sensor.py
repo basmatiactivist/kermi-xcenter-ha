@@ -93,6 +93,22 @@ def _hours(key: str, role: Role, dp: str) -> KermiSensorEntityDescription:
     )
 
 
+def _heater_power(role: Role, dp: str, *, enabled: bool) -> KermiSensorEntityDescription:
+    """Electrical power of the external heat generator (heater rod), native W."""
+    return KermiSensorEntityDescription(
+        key="heater_power",
+        translation_key="heater_power",
+        role=role,
+        datapoints=(dp,),
+        device_class=SensorDeviceClass.POWER,
+        native_unit_of_measurement=UnitOfPower.WATT,
+        suggested_unit_of_measurement=UnitOfPower.KILO_WATT,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=2,
+        entity_registry_enabled_default=enabled,
+    )
+
+
 def _energy_mode(data: dict[str, Any]) -> str | None:
     raw = data.get("hz_energy_mode")
     return ENERGY_MODES.get(raw) if raw is not None else None
@@ -229,8 +245,12 @@ SENSORS: tuple[KermiSensorEntityDescription, ...] = (
         raw_attribute=True,
     ),
     _hours("circuit_pump_hours", HZ, "hz_circuit_pump_hours"),
+    _heater_power(HZ, "hz_heater_power", enabled=False),
+    _hours("heater_hours", HZ, "hz_heater_hours"),
     # ---------------------------------------------------------- Warmwasser
     _temp("dhw_temp", WW, "ww_temp"),
+    _heater_power(WW, "ww_heater_power", enabled=True),
+    _hours("heater_hours", WW, "ww_heater_hours"),
     _temp("dhw_setpoint", WW, "ww_setpoint", setpoint=True),
     _temp("dhw_one_time_setpoint", WW, "ww_one_time_setpoint", setpoint=True, enabled=False),
 )

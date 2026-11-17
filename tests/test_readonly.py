@@ -180,7 +180,7 @@ def test_manifest() -> None:
     manifest = json.loads((PACKAGE / "manifest.json").read_text("utf-8"))
     assert manifest["domain"] == "kermi_xcenter"
     assert manifest["name"] == "Kermi x-center (lokal)"
-    assert manifest["version"] == "0.1.0"
+    assert manifest["version"] == "0.1.1"
     assert manifest["iot_class"] == "local_polling"
     assert manifest["requirements"] == []
     assert manifest["config_flow"] is True

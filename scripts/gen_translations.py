@@ -43,6 +43,8 @@ S = {  # key: (en, de)
     "mixer_position": ("Mixer position", "Mischeröffnung"),
     "energy_mode": ("Energy mode", "Energiemodus"),
     "circuit_pump_hours": ("Run hours heating circuit pump", "Betriebsstunden Heizkreispumpe"),
+    "heater_power": ("Heater power (external heat generator)", "Heizstab Leistung (ext. WEZ)"),
+    "heater_hours": ("Run hours heater (external heat generator)", "Laufzeit Heizstab (ext. WEZ)"),
     "dhw_temp": ("Hot water temperature", "Warmwasser Isttemperatur"),
     "dhw_setpoint": ("Hot water setpoint", "Warmwasser Solltemperatur"),
     "dhw_one_time_setpoint": ("One-time charge setpoint", "Sollwert Einmalladung"),
