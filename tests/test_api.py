@@ -1,0 +1,171 @@
+"""Client tests against the local fake x-center (127.0.0.1 only)."""
+
+from __future__ import annotations
+
+import math
+
+import aiohttp
+import pytest
+
+from custom_components.kermi_xcenter.api import (
+    KermiAuthError,
+    KermiClient,
+    KermiConnectionError,
+    normalize_host,
+)
+from custom_components.kermi_xcenter.identify import async_determine_unique_id
+
+from .fake_xcenter import PASSWORD, SERIAL, FakeXCenter
+
+
+def _client(fake: FakeXCenter, password: str = PASSWORD) -> KermiClient:
+    session = aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar(unsafe=True))
+    return KermiClient(fake.host, password, session, timeout=5)
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected"),
+    [
+        ("192.0.2.10", "192.0.2.10"),
+        (" http://192.0.2.10/ ", "192.0.2.10"),
+        ("https://xcenter.local:8080/api", "xcenter.local:8080"),
+    ],
+)
+def test_normalize_host(raw: str, expected: str) -> None:
+    assert normalize_host(raw) == expected
+
+
+async def test_login_and_devices(xcenter: FakeXCenter) -> None:
+    client = _client(xcenter)
+    try:
+        devices = await client.get_all_devices()  # logs in implicitly
+        assert {d["Name"] for d in devices} >= {"Heizen (50)", "x-change dynamic pro (40)"}
+        await client.get_all_devices()
+        assert xcenter.login_attempts == 1  # no repeated logins
+    finally:
+        await client.close()
+    assert xcenter.logouts == 1
+    assert xcenter.forbidden == []
+
+
+async def test_invalid_password(xcenter: FakeXCenter) -> None:
+    client = _client(xcenter, "wrong")
+    try:
+        with pytest.raises(KermiAuthError):
+            await client.login()
+        with pytest.raises(KermiAuthError):
+            await client.get_all_devices()
+    finally:
+        await client.close()
+    assert xcenter.logouts == 0  # never logged in, so no logout
+
+
+async def test_relogin_once_after_401(xcenter: FakeXCenter) -> None:
+    client = _client(xcenter)
+    try:
+        await client.get_all_devices()
+        xcenter.expire_sessions()
+        devices = await client.get_all_devices()
+        assert devices
+        assert xcenter.login_attempts == 2
+    finally:
+        await client.close()
+
+
+async def test_relogin_rejected_raises_auth_error(xcenter: FakeXCenter) -> None:
+    client = _client(xcenter)
+    try:
+        await client.get_all_devices()
+        xcenter.expire_sessions()
+        xcenter.password = "changed"
+        with pytest.raises(KermiAuthError):
+            await client.get_all_devices()
+        assert xcenter.login_attempts == 2
+    finally:
+        await client.close()
+
+
+async def test_chunked_reads_per_device(xcenter: FakeXCenter) -> None:
+    hp_id = xcenter.device_id("x-change")
+    hz_id = xcenter.device_id("Heizen")
+    pairs = [(c["DatapointConfigId"], hp_id) for c in xcenter.configs[97]]
+    pairs += [(c["DatapointConfigId"], hz_id) for c in xcenter.configs[95]]
+    client = _client(xcenter)
+    try:
+        values = await client.read_values(pairs)
+    finally:
+        await client.close()
+    assert len(pairs) == 116 + 80
+    assert xcenter.read_sizes == [40, 40, 36, 40, 40]
+    assert len(values) == len(pairs)
+    cop_twe = next(c for c in xcenter.configs[97] if c["DisplayName"] == "aktueller COP Twe")
+    assert math.isnan(values[(cop_twe["DatapointConfigId"].lower(), hp_id.lower())])
+
+
+async def test_status_code_error(xcenter: FakeXCenter) -> None:
+    xcenter.status_code = 5
+    client = _client(xcenter)
+    try:
+        with pytest.raises(KermiConnectionError):
+            await client.get_all_devices()
+    finally:
+        await client.close()
+
+
+async def test_http_error(xcenter: FakeXCenter) -> None:
+    client = _client(xcenter)
+    try:
+        await client.login()
+        xcenter.fail_all = True
+        with pytest.raises(KermiConnectionError):
+            await client.get_all_devices()
+    finally:
+        await client.close()
+
+
+async def test_unreachable(socket_enabled) -> None:
+    fake = FakeXCenter()
+    await fake.start()
+    host = fake.host
+    await fake.stop()
+    session = aiohttp.ClientSession(cookie_jar=aiohttp.CookieJar(unsafe=True))
+    client = KermiClient(host, PASSWORD, session, timeout=2)
+    try:
+        with pytest.raises(KermiConnectionError):
+            await client.login()
+    finally:
+        await client.close()
+
+
+async def test_unique_id_from_heat_pump_serial_datapoint(xcenter: FakeXCenter) -> None:
+    client = _client(xcenter)
+    try:
+        uid = await async_determine_unique_id(client, await client.get_all_devices())
+    finally:
+        await client.close()
+    assert uid == SERIAL.lower()
+
+
+async def test_unique_id_from_device_list(socket_enabled) -> None:
+    fake = FakeXCenter(device_serial="IF-0042")
+    await fake.start()
+    client = _client(fake)
+    try:
+        uid = await async_determine_unique_id(client, await client.get_all_devices())
+    finally:
+        await client.close()
+        await fake.stop()
+    assert uid == "if-0042"
+    assert ("POST", "/api/Datapoint/ReadValues/00000000-0000-0000-0000-000000000000") not in (
+        fake.requests
+    )
+
+
+async def test_unique_id_falls_back_to_interface_device_id(xcenter: FakeXCenter) -> None:
+    xcenter.set_value("x-change", "Seriennummer", "")
+    client = _client(xcenter)
+    try:
+        uid = await async_determine_unique_id(client, await client.get_all_devices())
+    finally:
+        await client.close()
+    assert uid == xcenter.device_id("Interfacemodul").lower()

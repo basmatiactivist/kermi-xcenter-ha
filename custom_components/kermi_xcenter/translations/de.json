@@ -1,0 +1,271 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kermi x-center verbinden",
+        "description": "Lokale Verbindung zur Weboberfläche des x-center. Standardmässig nur lesend; Steuerung muss in den Optionen ausdrücklich freigegeben werden.",
+        "data": {
+          "host": "Host",
+          "password": "Passwort"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname des x-center, z. B. 192.168.1.50",
+          "password": "Passwort der x-center-Weboberfläche"
+        }
+      },
+      "reconfigure": {
+        "title": "Verbindung ändern",
+        "description": "Host oder Passwort ändern. Passwort leer lassen, um das bisherige zu behalten.",
+        "data": {
+          "host": "Host",
+          "password": "Passwort"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname des x-center, z. B. 192.168.1.50",
+          "password": "Passwort der x-center-Weboberfläche"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Passwort abgelehnt",
+        "description": "Das x-center unter {host} hat das gespeicherte Passwort abgelehnt. Bitte aktuelles Passwort eingeben.",
+        "data": {
+          "password": "Passwort"
+        },
+        "data_description": {
+          "password": "Passwort der x-center-Weboberfläche"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Keine Verbindung zum x-center möglich.",
+      "invalid_auth": "Das x-center hat das Passwort abgelehnt.",
+      "unknown": "Unerwarteter Fehler."
+    },
+    "abort": {
+      "already_configured": "Dieses x-center ist bereits eingerichtet.",
+      "reconfigure_successful": "Die Verbindung wurde aktualisiert.",
+      "reauth_successful": "Das Passwort wurde aktualisiert.",
+      "wrong_device": "Das ist ein anderes x-center als das eingerichtete."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen",
+        "data": {
+          "scan_interval": "Abfrageintervall",
+          "allow_writes": "Steuerung erlauben (Schreibzugriff)"
+        },
+        "data_description": {
+          "scan_interval": "Sekunden zwischen zwei Abfragen (mindestens 15). Bei Fehlern wird das Intervall bis auf 15 Minuten verlängert.",
+          "allow_writes": "Standardmässig aus. Nur einschalten, wenn Home Assistant wirklich Einstellungen an der Wärmepumpe ändern soll."
+        }
+      },
+      "confirm_writes": {
+        "title": "Steuerung wirklich erlauben?",
+        "description": "ACHTUNG: Mit dieser Option kann Home Assistant Einstellungen an der Wärmepumpe ÄNDERN: Warmwasser-Einmalladung starten, Warmwasser-Sollwerte setzen (40–55 °C) und den Energiemodus des Heizkreises umschalten. Falsche Einstellungen können zu Komfortverlust, höheren Energiekosten oder Legionellenrisiko führen. Der Schreibweg ist an echter Hardware NICHT getestet. Jeder Schreibvorgang ist auf sichere Bereiche und auf höchstens einen Schreibvorgang pro Wert alle 5 Minuten begrenzt und wird protokolliert. Nur bestätigen, wenn du dieses Risiko bewusst eingehst.",
+        "data": {
+          "confirm_writes": "Ich habe die Warnung verstanden und erlaube Schreibzugriffe"
+        }
+      }
+    },
+    "error": {
+      "confirm_required": "Bitte die Bestätigung ankreuzen oder zurückgehen und die Steuerung ausgeschaltet lassen."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "thermal_power": {
+        "name": "Wärmeleistung"
+      },
+      "thermal_power_heating": {
+        "name": "Wärmeleistung Heizen"
+      },
+      "thermal_power_dhw": {
+        "name": "Wärmeleistung Warmwasser"
+      },
+      "electrical_power": {
+        "name": "Elektrische Leistung"
+      },
+      "electrical_power_heating": {
+        "name": "Elektrische Leistung Heizen"
+      },
+      "electrical_power_dhw": {
+        "name": "Elektrische Leistung Warmwasser"
+      },
+      "cop": {
+        "name": "COP"
+      },
+      "cop_heating": {
+        "name": "COP Heizen"
+      },
+      "cop_dhw": {
+        "name": "COP Warmwasser"
+      },
+      "requested_power_heating": {
+        "name": "Leistungsanforderung Heizen"
+      },
+      "requested_power_dhw": {
+        "name": "Leistungsanforderung Warmwasser"
+      },
+      "heat_pump_state": {
+        "name": "Status Wärmepumpe (Code)"
+      },
+      "state_since": {
+        "name": "Status seit"
+      },
+      "flow_temp": {
+        "name": "Vorlauftemperatur (B16)"
+      },
+      "return_temp": {
+        "name": "Rücklauftemperatur (B17)"
+      },
+      "air_inlet_temp": {
+        "name": "Lufteintrittstemperatur (B15)"
+      },
+      "air_outlet_temp": {
+        "name": "Luftaustrittstemperatur (B14)"
+      },
+      "outdoor_temp_hp": {
+        "name": "Außentemperaturfühler (BOT)"
+      },
+      "spread": {
+        "name": "Spreizung"
+      },
+      "flow_rate": {
+        "name": "Durchfluss (P13)"
+      },
+      "required_flow_rate": {
+        "name": "Erforderlicher Durchfluss"
+      },
+      "fan_speed": {
+        "name": "Lüfterdrehzahl (Soll)"
+      },
+      "charging_pump_power": {
+        "name": "Leistung Speicherladepumpe"
+      },
+      "compressor_starts": {
+        "name": "Verdichterstarts"
+      },
+      "hours_compressor": {
+        "name": "Betriebsstunden Verdichter"
+      },
+      "hours_fan": {
+        "name": "Betriebsstunden Lüfter"
+      },
+      "hours_charging_pump": {
+        "name": "Betriebsstunden Speicherladepumpe"
+      },
+      "software_version": {
+        "name": "Softwareversion"
+      },
+      "outdoor_temp": {
+        "name": "Außentemperatur"
+      },
+      "outdoor_temp_avg": {
+        "name": "Außentemperatur (gemittelt)"
+      },
+      "outdoor_temp_season": {
+        "name": "Außentemperatur (Saison)"
+      },
+      "circuit_temp": {
+        "name": "Heizkreis Isttemperatur"
+      },
+      "circuit_setpoint": {
+        "name": "Heizkreis Solltemperatur"
+      },
+      "buffer_temp": {
+        "name": "Pufferspeicher Isttemperatur"
+      },
+      "buffer_setpoint": {
+        "name": "Pufferspeicher Solltemperatur"
+      },
+      "mixer_position": {
+        "name": "Mischeröffnung"
+      },
+      "energy_mode": {
+        "name": "Energiemodus",
+        "state": {
+          "off": "Aus",
+          "eco": "Eco",
+          "normal": "Normal",
+          "comfort": "Komfort",
+          "custom": "Benutzerdefiniert"
+        },
+        "state_attributes": {
+          "raw_value": {
+            "name": "Rohwert"
+          }
+        }
+      },
+      "circuit_pump_hours": {
+        "name": "Betriebsstunden Heizkreispumpe"
+      },
+      "dhw_temp": {
+        "name": "Warmwasser Isttemperatur"
+      },
+      "dhw_setpoint": {
+        "name": "Warmwasser Solltemperatur"
+      },
+      "dhw_one_time_setpoint": {
+        "name": "Sollwert Einmalladung"
+      }
+    },
+    "binary_sensor": {
+      "heating_active": {
+        "name": "Heizbetrieb"
+      },
+      "dhw_active": {
+        "name": "Warmwasserbetrieb"
+      },
+      "cooling_active": {
+        "name": "Kühlbetrieb"
+      },
+      "defrosting": {
+        "name": "Abtauung"
+      },
+      "pv_modulation": {
+        "name": "PV-Modulation"
+      },
+      "global_alarm": {
+        "name": "Globaler Alarm"
+      },
+      "global_warning": {
+        "name": "Globale Warnung"
+      },
+      "charging_pump": {
+        "name": "Speicherladepumpe"
+      },
+      "summer_mode": {
+        "name": "Sommerbetrieb"
+      },
+      "one_time_charge": {
+        "name": "Einmalladung aktiv"
+      }
+    },
+    "button": {
+      "dhw_one_time_charge_start": {
+        "name": "Warmwasser einmal aufheizen"
+      }
+    },
+    "number": {
+      "dhw_one_time_setpoint_control": {
+        "name": "Sollwert Einmalladung (Steuerung)"
+      },
+      "dhw_setpoint_control": {
+        "name": "Warmwasser-Sollwert (Steuerung)"
+      }
+    },
+    "select": {
+      "energy_mode_control": {
+        "name": "Energiemodus (Steuerung)",
+        "state": {
+          "eco": "Eco",
+          "normal": "Normal",
+          "comfort": "Komfort",
+          "custom": "Benutzerdefiniert"
+        }
+      }
+    }
+  }
+}

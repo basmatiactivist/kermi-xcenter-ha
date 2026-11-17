@@ -1,0 +1,14 @@
+{
+  "domain": "kermi_xcenter",
+  "name": "Kermi x-center (lokal)",
+  "codeowners": ["@basmatiactivist"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/basmatiactivist/kermi-xcenter-ha",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/basmatiactivist/kermi-xcenter-ha/issues",
+  "loggers": ["custom_components.kermi_xcenter"],
+  "requirements": [],
+  "version": "0.1.0"
+}

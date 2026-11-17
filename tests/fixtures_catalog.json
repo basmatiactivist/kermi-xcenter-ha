@@ -1,0 +1,2792 @@
+{
+ "note": "Live catalogue of a Kermi x-center pro (Heim AG) with x-change dynamic pro S AW E, firmware WP 3.8.8 / modules 1.5.33, read 2026-11-16 via Datapoint/GetConfigsByDeviceType + Datapoint/ReadValues. Keys: name=device Name, type=DeviceType, id=DeviceId (anonymised), dp: w=WellKnownName, n=DisplayName, v=value at read time, u=Unit, h=Hidden, id=DatapointConfigId, ul=UserLevelRead, pv=PossibleValueKey.",
+ "devices": [
+  {
+   "name": "Trinkwassererwärmung (51)",
+   "type": 95,
+   "id": "75e90eb5-2b1d-58ae-8eb6-4303b560fd26",
+   "dp": [
+    {
+     "w": "BufferSystem_TweEnableUser",
+     "n": "TWE aktivieren",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "547451f0-b02e-4ccb-bc73-8a9a1082b96e",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_TweTemperatureActual",
+     "n": "Isttemperatur TWE",
+     "v": 50.9,
+     "u": "°C",
+     "h": false,
+     "id": "06e61673-abc2-4671-9e5a-960809d1f326",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_TweSetpoint",
+     "n": "Solltemperatur TWE",
+     "v": 53,
+     "u": "°C",
+     "h": false,
+     "id": "8f7dd1c6-8e9c-4699-8d6e-3f561d947df4",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_TemperatureSetpointTwe",
+     "n": "Konstanter Sollwert TWE",
+     "v": 53,
+     "u": "°C",
+     "h": false,
+     "id": "941c1c28-e55f-4c3a-8279-73664db4dcbf",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_OneTimeTwe",
+     "n": "Einmalladung TWE",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "dc9d3f5e-c85d-4795-9825-ba83db747b30",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_OneTimeTweSetpoint",
+     "n": "Sollwert Einmalladung TWE",
+     "v": 50,
+     "u": "°C",
+     "h": false,
+     "id": "3bce582f-eba8-4cf5-8e1a-5674d95173bc",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_ErrorSetpointTwe",
+     "n": "Störsollwert TWE",
+     "v": 35,
+     "u": "°C",
+     "h": false,
+     "id": "680851ed-38af-4d84-80a3-dcc26db9f888",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_RoomPanelDeviceIdTwe",
+     "n": "Zuordnung TWE RBG",
+     "v": "",
+     "u": "",
+     "h": false,
+     "id": "e8b86c08-18c6-46db-8ef7-7f078fe51aff",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_CoolingEnableUser",
+     "n": "Kühlung aktivieren",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "ea6395c4-e70d-4943-8167-224fe00510b1",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_CoolingTemperatureActual",
+     "n": "Isttemperatur Kühlspeicher",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "c1c8be94-d4f3-4c66-95f9-bee9da4cebe5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_CoolingSetpoint",
+     "n": "Solltemperatur Kühlspeicher",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "5d50204d-b5f8-4876-b0f5-df74fa95a1e7",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_HeatingEnableUser",
+     "n": "Heizung aktivieren",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "2dc0e795-ee59-4504-89e1-d7b5402a9831",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_HeatingTemperatureActual",
+     "n": "Isttemperatur Heizspeicher",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "63b1281e-d5b2-406d-b6cd-6564e7168d18",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_HeatingSetpoint",
+     "n": "Solltemperatur Heizspeicher",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "6cce4a0e-df21-4113-8959-206a0f3be480",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_ErrorSetpointHeating",
+     "n": "Störsollwert Heizen",
+     "v": 27,
+     "u": "°C",
+     "h": false,
+     "id": "10ee5405-c612-416f-a5a0-a5501d2891e5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_Name",
+     "n": "Heizkreisname",
+     "v": "",
+     "u": "",
+     "h": false,
+     "id": "3769f6bf-8df1-466b-b772-0b9082e48283",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_HeatExchangeType",
+     "n": "Wärmeübertrager",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "593b38b5-9089-4df9-b737-cae439ae0187",
+     "ul": 10,
+     "pv": "HeatingCircuit_Exchanger"
+    },
+    {
+     "w": null,
+     "n": "Status Heizkreis",
+     "v": 9,
+     "u": "",
+     "h": false,
+     "id": "25573e92-9e4c-4cd2-97e0-9122a87e65c8",
+     "ul": 10,
+     "pv": "StateHKM"
+    },
+    {
+     "w": "HeatingCircuit_TemperatureActualValue",
+     "n": "Isttemperatur Heizkreis",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "9794d5c9-413c-45ec-a04c-f465d5ff63a0",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_TemperatureSetpoint",
+     "n": "Solltemperatur Heizkreis",
+     "v": 35,
+     "u": "°C",
+     "h": false,
+     "id": "3cffd21e-a1af-4d46-ac24-1c10f97c1b94",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OperationMode",
+     "n": "Betriebsart",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "8a6c9953-97c6-43c9-a833-75bc0fb477b0",
+     "ul": 10,
+     "pv": "OperationModes"
+    },
+    {
+     "w": "HeatingCircuit_HeatingWaterMode",
+     "n": "Heizmodus",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "a060dbf1-50cc-414c-afb2-89cfc6c086f6",
+     "ul": 10,
+     "pv": "HeizwasserBetriebsart"
+    },
+    {
+     "w": "HeatingCircuit_FixedSetpointHeating",
+     "n": "Konstanter Sollwert Heizkreis",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "588070eb-458c-4fa0-ab40-df3fa4f29887",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_FixedSetpointCooling",
+     "n": "Konstanter Sollwert Kühlkreis",
+     "v": 20,
+     "u": "°C",
+     "h": false,
+     "id": "61ef070e-aa66-4803-9fed-8facaeef76b1",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_EnergyMode",
+     "n": "Energiemodus",
+     "v": 2,
+     "u": "",
+     "h": false,
+     "id": "29106ba2-3c72-40fd-8b04-e42f1615f9a7",
+     "ul": 10,
+     "pv": "EnergyMode"
+    },
+    {
+     "w": "HeatingCircuit_TemperatureAdjust",
+     "n": "Parallelverschiebung Kurve",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "6dafe512-c2ee-4c10-a85b-8da2fee077ca",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_TrojaEnabled",
+     "n": "Freigabe externe Parallelverschiebung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "8b50e2f8-4f4f-4782-b041-761df51c7e0c",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "HeatingCircuit_OffsetTroja",
+     "n": "Externe Parallelverschiebung",
+     "v": 0,
+     "u": "K",
+     "h": false,
+     "id": "5acccf3e-9e64-42db-b2a9-0a5cc80efa75",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_RoomPanelDeviceId",
+     "n": "Zuordnung RBG",
+     "v": "",
+     "u": "",
+     "h": false,
+     "id": "fa30474b-1ddc-468c-b024-8873e370fd37",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetEco",
+     "n": "Eco Offset",
+     "v": -2,
+     "u": "K",
+     "h": false,
+     "id": "e0ea8798-6505-49e0-aba8-daac9f85ded0",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetComfort",
+     "n": "Komfort Offset",
+     "v": 2,
+     "u": "K",
+     "h": false,
+     "id": "79f7dba8-91da-47d6-a70a-849f5df940b8",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetCustom",
+     "n": "Benutzerdefiniert Offset",
+     "v": -5,
+     "u": "K",
+     "h": false,
+     "id": "502a117c-5c2c-4afc-91e5-fe30db3f264a",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetNormal",
+     "n": "Normal Offset",
+     "v": 0,
+     "u": "K",
+     "h": false,
+     "id": "0ae9f6aa-5316-4cc3-bd6a-54e8b6048502",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetEcoCooling",
+     "n": "Kühlen Eco Offset",
+     "v": 2,
+     "u": "K",
+     "h": false,
+     "id": "957eda40-2ca2-4e9d-b46e-084b5f36556d",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetComfortCooling",
+     "n": "Kühlen Komfort Offset",
+     "v": -2,
+     "u": "K",
+     "h": false,
+     "id": "ace0e742-46c0-47ff-8aa3-78a807ef4818",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetCustomCooling",
+     "n": "Kühlen Benutzerdefiniert Offset",
+     "v": 5,
+     "u": "K",
+     "h": false,
+     "id": "26bc6b4c-f0be-4479-b3f8-c0e81fe994f5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetNormalCooling",
+     "n": "Kühlen Normal Offset",
+     "v": 0,
+     "u": "K",
+     "h": false,
+     "id": "a09e92d4-3a01-42b6-8179-fdf210726ff0",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_ManualSaison",
+     "n": "Manuelle Saisonauswahl",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "039bec55-ab45-48f2-bdcd-10e992aafbda",
+     "ul": 10,
+     "pv": "ManualSaison"
+    },
+    {
+     "w": "HeatingCircuit_SummerModeUpperThreshold",
+     "n": "Sommerbetrieb (Heizen Aus)",
+     "v": 18,
+     "u": "°C",
+     "h": false,
+     "id": "b95a5df7-af1d-455c-92fb-f97b68df2f9a",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_SummerModeLowerThreshold",
+     "n": "Winterbetrieb (Heizen Ein)",
+     "v": 16,
+     "u": "°C",
+     "h": false,
+     "id": "16fb38be-0eec-4547-969c-c375fa519234",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_ChangeOverUpperThreshold",
+     "n": "Kühlbetrieb Ein",
+     "v": 22,
+     "u": "°C",
+     "h": false,
+     "id": "aeb7f9c4-fa89-4e83-9751-5d68670d7e74",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_ChangeoverLowerThreshold",
+     "n": "Kühlbetrieb Aus",
+     "v": 20,
+     "u": "°C",
+     "h": false,
+     "id": "2d70f9e6-188e-443c-aeb3-3f0dec639897",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_SummerMode",
+     "n": "Sommerbetrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "c86dc439-2a0e-4e33-a731-5d4188af144d",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "HeatingCircuit_ChangeOver",
+     "n": "Kühlbetrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "529015d7-b9dd-46d3-9074-ef6b81464494",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_BivalenceStateDetailTwe",
+     "n": "Status ext. WEZ TWE",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "664d6732-6c83-4717-acc4-af1e1aa7964b",
+     "ul": 10,
+     "pv": "BivalenceStateDetailRubin"
+    },
+    {
+     "w": "BufferSystem_BivalenceControlTwe",
+     "n": "Betriebsart ext. WEZ TWE",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "9acd1de3-2890-43cb-bec0-6a8a1dd077d8",
+     "ul": 10,
+     "pv": "BivalenceControl"
+    },
+    {
+     "w": "BufferSystem_EnableHeaterComfortModeTWE",
+     "n": "Komfort Modus ext. WEZ TWE",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "121205ae-7d15-45d2-bdfb-a7162133f849",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_AktivBeiStoerungTwe",
+     "n": "Stör-Freigabe ext. WEZ TWE",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "e17dd68f-2cba-43f4-b98b-ab96d8811fb6",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_BivalenceStateDetailHeating",
+     "n": "Status ext. WEZ Heizen",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "ec8f599b-0141-49f2-83b6-31e4583c690c",
+     "ul": 10,
+     "pv": "BivalenceStateDetailRubin"
+    },
+    {
+     "w": "BufferSystem_BivalenceControlHeating",
+     "n": "Betriebsart ext. WEZ Heizen",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "c2a2d496-1319-4a03-9c17-e53d0876c604",
+     "ul": 10,
+     "pv": "BivalenceControl"
+    },
+    {
+     "w": "BufferSystem_EnableHeaterComfortModeHeating",
+     "n": "Komfort Modus ext. WEZ Heizen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "b3d8b2a3-03ec-468b-8005-ddacff5f3e75",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_AktivBeiStoerungHeating",
+     "n": "Stör-Freigabe ext. WEZ Heizen",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "4adcf295-1ebb-4bd3-af30-8b7a8cfe7d9c",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_HeaterIsPVActive",
+     "n": "Status PV Betrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "f9110d9b-86d6-4b9f-bcdf-9f01dff62aaf",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_HeaterRequestedElectricalPower",
+     "n": "aktuelle elektr. Leistung",
+     "v": 0,
+     "u": "W",
+     "h": false,
+     "id": "e897d682-5459-4bc4-8fd3-8c6488b8546b",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_HeaterRequestedElectricalPowerPV",
+     "n": "Aktuelle elektr. Leistung PV",
+     "v": 0,
+     "u": "W",
+     "h": false,
+     "id": "735e369d-d22d-4b9f-86e6-776b8eadb1f2",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "LuftTemperatur",
+     "n": "Außentemperatur",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "777c1a8e-ec1c-4a15-9bcc-4ec5b8e0e4f4",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Aussentemperatur_gemittelt",
+     "n": "Gemittelte Außentemperatur",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "7b712484-4c0e-4b8d-9425-25f9f7072777",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HP_Aussentemperatur_Saison",
+     "n": "Saison-Außentemperatur",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "e0ed80e9-ec5a-4c5e-941e-f4430448cb27",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor1",
+     "n": "T1 (X13) Temperaturfühler",
+     "v": 50.9,
+     "u": "°C",
+     "h": false,
+     "id": "711d7c15-387c-4c5e-8473-153a1b79e02a",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor2",
+     "n": "T2 (X12) Temperaturfühler",
+     "v": -999.9,
+     "u": "°C",
+     "h": false,
+     "id": "d1538411-fe1f-431a-9dd0-ce09d32d6783",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor3",
+     "n": "T3 (X11) Temperaturfühler",
+     "v": -999.9,
+     "u": "°C",
+     "h": false,
+     "id": "66e4d7d2-8d14-4b1a-bd0d-e48452b39664",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor4",
+     "n": "T4 (X10) Temperaturfühler",
+     "v": -999.9,
+     "u": "°C",
+     "h": false,
+     "id": "46c2aa6a-7a87-4b7b-831a-0475b5b562c1",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_StateDigitalInput1",
+     "n": "DI1 (X8) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "ad5d69e0-7822-45c6-8f2c-b2a91bc6eb72",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateDigitalInput2",
+     "n": "DI2 (X9) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "fc8ed6d0-2082-4a8d-a4df-70c27c4e03ad",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateRod1",
+     "n": "Ext. WEZ Relais 1 Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "cba561c5-721b-4f98-a3cb-d5aa695f2678",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateRod2",
+     "n": "Ext. WEZ Relais 2 Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "7f1a3dc7-e172-4bdc-ad99-f9daf0ba9b01",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateRod3",
+     "n": "Ext. WEZ Relais 3 Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "48ee9f6e-8de4-47d0-8239-97ecfcc5538c",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni1",
+     "n": "DO1/Pump (X3) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "912a4128-e3bb-49c5-8b1c-373cf931cfdb",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni2_1",
+     "n": "DO2-1/MV (X4) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "4a6716e7-6f7c-4cf4-8a39-7afdb8bfbf50",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni2_2",
+     "n": "DO2-2/MV (X4) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "9587a24f-3273-425c-8be4-81b2a2b544ea",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni3",
+     "n": "DO3/CO (X5) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "c5d8c336-9690-4d47-9566-a9b7d702eee9",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Mischeröffnung (25% Stufen)",
+     "v": 0,
+     "u": "%",
+     "h": false,
+     "id": "5501e6f1-3fc9-49e7-988c-3aed6f80239b",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_MixerPosition",
+     "n": "Mischeröffnung",
+     "v": 0,
+     "u": "%",
+     "h": false,
+     "id": "8589b3a8-716c-484b-ba07-6039544b795f",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OperatingHoursPump",
+     "n": "Heizkreispumpe Laufzeit",
+     "v": 0,
+     "u": "h",
+     "h": false,
+     "id": "34b6140f-2516-4efa-b48d-675861590de5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Ext. WEZ Laufzeit",
+     "v": 27,
+     "u": "h",
+     "h": false,
+     "id": "c1a53ede-f451-4cf5-941b-8111bd47034f",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Serialnumber",
+     "n": "Seriennummer",
+     "v": "REDACTED",
+     "u": "",
+     "h": false,
+     "id": "c10abf7e-e227-49e9-b059-1d0d364e3c60",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "DeviceType",
+     "n": "Gerätetyp",
+     "v": "Buffer System",
+     "u": "",
+     "h": false,
+     "id": "681d61c0-f749-43e0-a106-3d05f37202e5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "PowerModule_SWVersion_Major",
+     "n": "Software-Version Major",
+     "v": 1,
+     "u": "",
+     "h": false,
+     "id": "d1b421c0-ab57-4de4-8176-32c0108db27c",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "PowerModule_SWVersion_Minor",
+     "n": "Software-Version Minor",
+     "v": 5,
+     "u": "",
+     "h": false,
+     "id": "ffa779f5-084f-47d8-b1fa-3235abb9ebad",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "PowerModule_SWVersion_Patch",
+     "n": "Software-Version Patch",
+     "v": 33,
+     "u": "",
+     "h": false,
+     "id": "b9f91daa-da6c-4968-8cc7-669a3b3f8b91",
+     "ul": 10,
+     "pv": null
+    }
+   ]
+  },
+  {
+   "name": "Heizen (50)",
+   "type": 95,
+   "id": "32ea8ae5-62de-5058-b841-292adbea951c",
+   "dp": [
+    {
+     "w": "BufferSystem_TweEnableUser",
+     "n": "TWE aktivieren",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "547451f0-b02e-4ccb-bc73-8a9a1082b96e",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_TweTemperatureActual",
+     "n": "Isttemperatur TWE",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "06e61673-abc2-4671-9e5a-960809d1f326",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_TweSetpoint",
+     "n": "Solltemperatur TWE",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "8f7dd1c6-8e9c-4699-8d6e-3f561d947df4",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_TemperatureSetpointTwe",
+     "n": "Konstanter Sollwert TWE",
+     "v": 48,
+     "u": "°C",
+     "h": false,
+     "id": "941c1c28-e55f-4c3a-8279-73664db4dcbf",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_OneTimeTwe",
+     "n": "Einmalladung TWE",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "dc9d3f5e-c85d-4795-9825-ba83db747b30",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_OneTimeTweSetpoint",
+     "n": "Sollwert Einmalladung TWE",
+     "v": 50,
+     "u": "°C",
+     "h": false,
+     "id": "3bce582f-eba8-4cf5-8e1a-5674d95173bc",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_ErrorSetpointTwe",
+     "n": "Störsollwert TWE",
+     "v": 35,
+     "u": "°C",
+     "h": false,
+     "id": "680851ed-38af-4d84-80a3-dcc26db9f888",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_RoomPanelDeviceIdTwe",
+     "n": "Zuordnung TWE RBG",
+     "v": "",
+     "u": "",
+     "h": false,
+     "id": "e8b86c08-18c6-46db-8ef7-7f078fe51aff",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_CoolingEnableUser",
+     "n": "Kühlung aktivieren",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "ea6395c4-e70d-4943-8167-224fe00510b1",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_CoolingTemperatureActual",
+     "n": "Isttemperatur Kühlspeicher",
+     "v": 26.300001,
+     "u": "°C",
+     "h": false,
+     "id": "c1c8be94-d4f3-4c66-95f9-bee9da4cebe5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_CoolingSetpoint",
+     "n": "Solltemperatur Kühlspeicher",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "5d50204d-b5f8-4876-b0f5-df74fa95a1e7",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_HeatingEnableUser",
+     "n": "Heizung aktivieren",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "2dc0e795-ee59-4504-89e1-d7b5402a9831",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_HeatingTemperatureActual",
+     "n": "Isttemperatur Heizspeicher",
+     "v": 26.300001,
+     "u": "°C",
+     "h": false,
+     "id": "63b1281e-d5b2-406d-b6cd-6564e7168d18",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_HeatingSetpoint",
+     "n": "Solltemperatur Heizspeicher",
+     "v": 28.757895,
+     "u": "°C",
+     "h": false,
+     "id": "6cce4a0e-df21-4113-8959-206a0f3be480",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_ErrorSetpointHeating",
+     "n": "Störsollwert Heizen",
+     "v": 27,
+     "u": "°C",
+     "h": false,
+     "id": "10ee5405-c612-416f-a5a0-a5501d2891e5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_Name",
+     "n": "Heizkreisname",
+     "v": "",
+     "u": "",
+     "h": false,
+     "id": "3769f6bf-8df1-466b-b772-0b9082e48283",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_HeatExchangeType",
+     "n": "Wärmeübertrager",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "593b38b5-9089-4df9-b737-cae439ae0187",
+     "ul": 10,
+     "pv": "HeatingCircuit_Exchanger"
+    },
+    {
+     "w": null,
+     "n": "Status Heizkreis",
+     "v": 1,
+     "u": "",
+     "h": false,
+     "id": "25573e92-9e4c-4cd2-97e0-9122a87e65c8",
+     "ul": 10,
+     "pv": "StateHKM"
+    },
+    {
+     "w": "HeatingCircuit_TemperatureActualValue",
+     "n": "Isttemperatur Heizkreis",
+     "v": 28.7,
+     "u": "°C",
+     "h": false,
+     "id": "9794d5c9-413c-45ec-a04c-f465d5ff63a0",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_TemperatureSetpoint",
+     "n": "Solltemperatur Heizkreis",
+     "v": 28.800001,
+     "u": "°C",
+     "h": false,
+     "id": "3cffd21e-a1af-4d46-ac24-1c10f97c1b94",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OperationMode",
+     "n": "Betriebsart",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "8a6c9953-97c6-43c9-a833-75bc0fb477b0",
+     "ul": 10,
+     "pv": "OperationModes"
+    },
+    {
+     "w": "HeatingCircuit_HeatingWaterMode",
+     "n": "Heizmodus",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "a060dbf1-50cc-414c-afb2-89cfc6c086f6",
+     "ul": 10,
+     "pv": "HeizwasserBetriebsart"
+    },
+    {
+     "w": "HeatingCircuit_FixedSetpointHeating",
+     "n": "Konstanter Sollwert Heizkreis",
+     "v": 0,
+     "u": "°C",
+     "h": false,
+     "id": "588070eb-458c-4fa0-ab40-df3fa4f29887",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_FixedSetpointCooling",
+     "n": "Konstanter Sollwert Kühlkreis",
+     "v": 20,
+     "u": "°C",
+     "h": false,
+     "id": "61ef070e-aa66-4803-9fed-8facaeef76b1",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_EnergyMode",
+     "n": "Energiemodus",
+     "v": 2,
+     "u": "",
+     "h": false,
+     "id": "29106ba2-3c72-40fd-8b04-e42f1615f9a7",
+     "ul": 10,
+     "pv": "EnergyMode"
+    },
+    {
+     "w": "HeatingCircuit_TemperatureAdjust",
+     "n": "Parallelverschiebung Kurve",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "6dafe512-c2ee-4c10-a85b-8da2fee077ca",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_TrojaEnabled",
+     "n": "Freigabe externe Parallelverschiebung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "8b50e2f8-4f4f-4782-b041-761df51c7e0c",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "HeatingCircuit_OffsetTroja",
+     "n": "Externe Parallelverschiebung",
+     "v": 0,
+     "u": "K",
+     "h": false,
+     "id": "5acccf3e-9e64-42db-b2a9-0a5cc80efa75",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_RoomPanelDeviceId",
+     "n": "Zuordnung RBG",
+     "v": "",
+     "u": "",
+     "h": false,
+     "id": "fa30474b-1ddc-468c-b024-8873e370fd37",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetEco",
+     "n": "Eco Offset",
+     "v": -2,
+     "u": "K",
+     "h": false,
+     "id": "e0ea8798-6505-49e0-aba8-daac9f85ded0",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetComfort",
+     "n": "Komfort Offset",
+     "v": 2,
+     "u": "K",
+     "h": false,
+     "id": "79f7dba8-91da-47d6-a70a-849f5df940b8",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetCustom",
+     "n": "Benutzerdefiniert Offset",
+     "v": -5,
+     "u": "K",
+     "h": false,
+     "id": "502a117c-5c2c-4afc-91e5-fe30db3f264a",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetNormal",
+     "n": "Normal Offset",
+     "v": 0,
+     "u": "K",
+     "h": false,
+     "id": "0ae9f6aa-5316-4cc3-bd6a-54e8b6048502",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetEcoCooling",
+     "n": "Kühlen Eco Offset",
+     "v": 2,
+     "u": "K",
+     "h": false,
+     "id": "957eda40-2ca2-4e9d-b46e-084b5f36556d",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetComfortCooling",
+     "n": "Kühlen Komfort Offset",
+     "v": -2,
+     "u": "K",
+     "h": false,
+     "id": "ace0e742-46c0-47ff-8aa3-78a807ef4818",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetCustomCooling",
+     "n": "Kühlen Benutzerdefiniert Offset",
+     "v": 5,
+     "u": "K",
+     "h": false,
+     "id": "26bc6b4c-f0be-4479-b3f8-c0e81fe994f5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OffsetNormalCooling",
+     "n": "Kühlen Normal Offset",
+     "v": 0,
+     "u": "K",
+     "h": false,
+     "id": "a09e92d4-3a01-42b6-8179-fdf210726ff0",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_ManualSaison",
+     "n": "Manuelle Saisonauswahl",
+     "v": 1,
+     "u": "",
+     "h": false,
+     "id": "039bec55-ab45-48f2-bdcd-10e992aafbda",
+     "ul": 10,
+     "pv": "ManualSaison"
+    },
+    {
+     "w": "HeatingCircuit_SummerModeUpperThreshold",
+     "n": "Sommerbetrieb (Heizen Aus)",
+     "v": 18,
+     "u": "°C",
+     "h": false,
+     "id": "b95a5df7-af1d-455c-92fb-f97b68df2f9a",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_SummerModeLowerThreshold",
+     "n": "Winterbetrieb (Heizen Ein)",
+     "v": 16,
+     "u": "°C",
+     "h": false,
+     "id": "16fb38be-0eec-4547-969c-c375fa519234",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_ChangeOverUpperThreshold",
+     "n": "Kühlbetrieb Ein",
+     "v": 22,
+     "u": "°C",
+     "h": false,
+     "id": "aeb7f9c4-fa89-4e83-9751-5d68670d7e74",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_ChangeoverLowerThreshold",
+     "n": "Kühlbetrieb Aus",
+     "v": 20,
+     "u": "°C",
+     "h": false,
+     "id": "2d70f9e6-188e-443c-aeb3-3f0dec639897",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_SummerMode",
+     "n": "Sommerbetrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "c86dc439-2a0e-4e33-a731-5d4188af144d",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "HeatingCircuit_ChangeOver",
+     "n": "Kühlbetrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "529015d7-b9dd-46d3-9074-ef6b81464494",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_BivalenceStateDetailTwe",
+     "n": "Status ext. WEZ TWE",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "664d6732-6c83-4717-acc4-af1e1aa7964b",
+     "ul": 10,
+     "pv": "BivalenceStateDetailRubin"
+    },
+    {
+     "w": "BufferSystem_BivalenceControlTwe",
+     "n": "Betriebsart ext. WEZ TWE",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "9acd1de3-2890-43cb-bec0-6a8a1dd077d8",
+     "ul": 10,
+     "pv": "BivalenceControl"
+    },
+    {
+     "w": "BufferSystem_EnableHeaterComfortModeTWE",
+     "n": "Komfort Modus ext. WEZ TWE",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "121205ae-7d15-45d2-bdfb-a7162133f849",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_AktivBeiStoerungTwe",
+     "n": "Stör-Freigabe ext. WEZ TWE",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "e17dd68f-2cba-43f4-b98b-ab96d8811fb6",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_BivalenceStateDetailHeating",
+     "n": "Status ext. WEZ Heizen",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "ec8f599b-0141-49f2-83b6-31e4583c690c",
+     "ul": 10,
+     "pv": "BivalenceStateDetailRubin"
+    },
+    {
+     "w": "BufferSystem_BivalenceControlHeating",
+     "n": "Betriebsart ext. WEZ Heizen",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "c2a2d496-1319-4a03-9c17-e53d0876c604",
+     "ul": 10,
+     "pv": "BivalenceControl"
+    },
+    {
+     "w": "BufferSystem_EnableHeaterComfortModeHeating",
+     "n": "Komfort Modus ext. WEZ Heizen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "b3d8b2a3-03ec-468b-8005-ddacff5f3e75",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_AktivBeiStoerungHeating",
+     "n": "Stör-Freigabe ext. WEZ Heizen",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "4adcf295-1ebb-4bd3-af30-8b7a8cfe7d9c",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_HeaterIsPVActive",
+     "n": "Status PV Betrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "f9110d9b-86d6-4b9f-bcdf-9f01dff62aaf",
+     "ul": 10,
+     "pv": "EINAUS"
+    },
+    {
+     "w": "BufferSystem_HeaterRequestedElectricalPower",
+     "n": "aktuelle elektr. Leistung",
+     "v": 0,
+     "u": "W",
+     "h": false,
+     "id": "e897d682-5459-4bc4-8fd3-8c6488b8546b",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_HeaterRequestedElectricalPowerPV",
+     "n": "Aktuelle elektr. Leistung PV",
+     "v": 0,
+     "u": "W",
+     "h": false,
+     "id": "735e369d-d22d-4b9f-86e6-776b8eadb1f2",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "LuftTemperatur",
+     "n": "Außentemperatur",
+     "v": 8.8,
+     "u": "°C",
+     "h": false,
+     "id": "777c1a8e-ec1c-4a15-9bcc-4ec5b8e0e4f4",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Aussentemperatur_gemittelt",
+     "n": "Gemittelte Außentemperatur",
+     "v": 9.052632,
+     "u": "°C",
+     "h": false,
+     "id": "7b712484-4c0e-4b8d-9425-25f9f7072777",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HP_Aussentemperatur_Saison",
+     "n": "Saison-Außentemperatur",
+     "v": 9.05,
+     "u": "°C",
+     "h": false,
+     "id": "e0ed80e9-ec5a-4c5e-941e-f4430448cb27",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor1",
+     "n": "T1 (X13) Temperaturfühler",
+     "v": 26.300001,
+     "u": "°C",
+     "h": false,
+     "id": "711d7c15-387c-4c5e-8473-153a1b79e02a",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor2",
+     "n": "T2 (X12) Temperaturfühler",
+     "v": -999.9,
+     "u": "°C",
+     "h": false,
+     "id": "d1538411-fe1f-431a-9dd0-ce09d32d6783",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor3",
+     "n": "T3 (X11) Temperaturfühler",
+     "v": 28.7,
+     "u": "°C",
+     "h": false,
+     "id": "66e4d7d2-8d14-4b1a-bd0d-e48452b39664",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_Tsensor4",
+     "n": "T4 (X10) Temperaturfühler",
+     "v": 8.8,
+     "u": "°C",
+     "h": false,
+     "id": "46c2aa6a-7a87-4b7b-831a-0475b5b562c1",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "BufferSystem_StateDigitalInput1",
+     "n": "DI1 (X8) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "ad5d69e0-7822-45c6-8f2c-b2a91bc6eb72",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateDigitalInput2",
+     "n": "DI2 (X9) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "fc8ed6d0-2082-4a8d-a4df-70c27c4e03ad",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateRod1",
+     "n": "Ext. WEZ Relais 1 Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "cba561c5-721b-4f98-a3cb-d5aa695f2678",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateRod2",
+     "n": "Ext. WEZ Relais 2 Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "7f1a3dc7-e172-4bdc-ad99-f9daf0ba9b01",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateRod3",
+     "n": "Ext. WEZ Relais 3 Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "48ee9f6e-8de4-47d0-8239-97ecfcc5538c",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni1",
+     "n": "DO1/Pump (X3) Status",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "912a4128-e3bb-49c5-8b1c-373cf931cfdb",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni2_1",
+     "n": "DO2-1/MV (X4) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "4a6716e7-6f7c-4cf4-8a39-7afdb8bfbf50",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni2_2",
+     "n": "DO2-2/MV (X4) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "9587a24f-3273-425c-8be4-81b2a2b544ea",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "BufferSystem_StateUni3",
+     "n": "DO3/CO (X5) Status",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "c5d8c336-9690-4d47-9566-a9b7d702eee9",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Mischeröffnung (25% Stufen)",
+     "v": 100,
+     "u": "%",
+     "h": false,
+     "id": "5501e6f1-3fc9-49e7-988c-3aed6f80239b",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_MixerPosition",
+     "n": "Mischeröffnung",
+     "v": 89,
+     "u": "%",
+     "h": false,
+     "id": "8589b3a8-716c-484b-ba07-6039544b795f",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "HeatingCircuit_OperatingHoursPump",
+     "n": "Heizkreispumpe Laufzeit",
+     "v": 807,
+     "u": "h",
+     "h": false,
+     "id": "34b6140f-2516-4efa-b48d-675861590de5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Ext. WEZ Laufzeit",
+     "v": 0,
+     "u": "h",
+     "h": false,
+     "id": "c1a53ede-f451-4cf5-941b-8111bd47034f",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Serialnumber",
+     "n": "Seriennummer",
+     "v": "REDACTED",
+     "u": "",
+     "h": false,
+     "id": "c10abf7e-e227-49e9-b059-1d0d364e3c60",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "DeviceType",
+     "n": "Gerätetyp",
+     "v": "Buffer System",
+     "u": "",
+     "h": false,
+     "id": "681d61c0-f749-43e0-a106-3d05f37202e5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "PowerModule_SWVersion_Major",
+     "n": "Software-Version Major",
+     "v": 1,
+     "u": "",
+     "h": false,
+     "id": "d1b421c0-ab57-4de4-8176-32c0108db27c",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "PowerModule_SWVersion_Minor",
+     "n": "Software-Version Minor",
+     "v": 5,
+     "u": "",
+     "h": false,
+     "id": "ffa779f5-084f-47d8-b1fa-3235abb9ebad",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "PowerModule_SWVersion_Patch",
+     "n": "Software-Version Patch",
+     "v": 33,
+     "u": "",
+     "h": false,
+     "id": "b9f91daa-da6c-4968-8cc7-669a3b3f8b91",
+     "ul": 10,
+     "pv": null
+    }
+   ]
+  },
+  {
+   "name": "x-center Interfacemodul",
+   "type": 0,
+   "id": "9deb2fc0-8ca4-5d9d-ac43-1313f2ef0772",
+   "dp": []
+  },
+  {
+   "name": "x-change dynamic pro (40)",
+   "type": 97,
+   "id": "117bb912-e1c3-5ecb-a890-ee907a4e0876",
+   "dp": [
+    {
+     "w": "Rubin_PvIsActive",
+     "n": "Status PV Modulation",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "6bf1c28a-5f12-460d-9377-a0e7ac039cfd",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CombinedHeatpumpState",
+     "n": "Status Wärmepumpe",
+     "v": 4,
+     "u": "",
+     "h": false,
+     "id": "f3966fa2-a25e-4cfe-a360-4749a0c5c1e0",
+     "ul": 10,
+     "pv": "Rubin_StateHP"
+    },
+    {
+     "w": "Rubin_StateSinceUtc",
+     "n": "Status seit",
+     "v": "2026-11-16T18:07:39.0993506Z",
+     "u": "",
+     "h": false,
+     "id": "663a9f08-9642-42a9-b8f2-bdac01b16e0c",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_HeatpumpStateHeating",
+     "n": "Status - Heizen",
+     "v": 2,
+     "u": "",
+     "h": false,
+     "id": "21ff249c-9f8e-4c28-b0d9-4f5c08642864",
+     "ul": 10,
+     "pv": "XR_Main_Operation"
+    },
+    {
+     "w": "Rubin_HeatpumpStateCooling",
+     "n": "Status - Kühlen",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "22187398-2303-46b6-8aba-389cc05bf467",
+     "ul": 10,
+     "pv": "XR_Main_Operation"
+    },
+    {
+     "w": null,
+     "n": "Anforderung Heizbetrieb",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "78eefb6d-46fc-4ea3-987a-9d5acc00a10f",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Anforderung Kühlbetrieb",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "9818ee3c-4d12-428b-8e48-5d8687193b62",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_IsTweState",
+     "n": "TWE",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "bb979c89-eb2d-432f-adad-64299bd77b67",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_IsHeatingState",
+     "n": "Heizen",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "75d95705-43af-4731-be60-944e62b3a419",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_IsCoolingState",
+     "n": "Kühlen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "72a4456d-05b1-4226-bfdc-c3280697c5ab",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_IsDefrostingState",
+     "n": "Abtauen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "bfdf2dd1-66ac-4911-b8a6-5879bf97f35a",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_RequestedPowerTwe",
+     "n": "Leistungsanforderung TWE",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "46f575cd-2646-47a2-9a23-96629f60bc73",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_RequestedPowerHeating",
+     "n": "Leistungsanforderung Heizen",
+     "v": 2.8999999,
+     "u": "kW",
+     "h": false,
+     "id": "420ef189-2439-4dcd-939c-02ce8db4c68b",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_RequestedPowerCooling",
+     "n": "Leistungsanforderung Kühlen",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "61389393-befd-405c-adde-d4ee3f4b8d1c",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentOutputCapacity",
+     "n": "Aktuelle Leistung",
+     "v": 4.0699997,
+     "u": "kW",
+     "h": false,
+     "id": "51a1db3b-59cc-4ff8-85b9-2cb596c89f82",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverter",
+     "n": "Akt. elektr. Leistung",
+     "v": 0.52,
+     "u": "kW",
+     "h": false,
+     "id": "45111410-984c-4dcf-beab-acc8a81b376e",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentCOP",
+     "n": "Aktueller COP",
+     "v": 7.690351,
+     "u": "",
+     "h": false,
+     "id": "76b2a146-4cd6-477c-bf22-e420eeb51253",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentOutputCapacityTwe",
+     "n": "aktuelle Leistung Twe",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "56f7839a-24e5-4674-862c-eceda2babffe",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterTwe",
+     "n": "akt. elektr. Leistung Twe",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "54a9e57b-7739-42cd-bd5d-477d650488ba",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentCOPTwe",
+     "n": "aktueller COP Twe",
+     "v": "NaN",
+     "u": "",
+     "h": false,
+     "id": "7a367794-f294-4084-a2a0-41fe7463b382",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentOutputCapacityHeating",
+     "n": "Aktuelle Leistung Heizen",
+     "v": 4.0699997,
+     "u": "kW",
+     "h": false,
+     "id": "122849bf-342c-495c-a430-b422ff7ecf1b",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterHeating",
+     "n": "Akt. elektr. Leistung Heizen",
+     "v": 0.52,
+     "u": "kW",
+     "h": false,
+     "id": "db8a9dc7-d764-417c-acac-a9997ac49140",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentCOPHeating",
+     "n": "Aktueller COP Heizen",
+     "v": 7.690351,
+     "u": "",
+     "h": false,
+     "id": "ccdbed24-11a1-4a35-a150-3a2a580d69ee",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentOutputCapacityCooling",
+     "n": "aktuelle Leistung Kühlen",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "2fb83845-661e-4c70-9446-cc29161ba555",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterCooling",
+     "n": "akt. elektr. Leistung Kühlen",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "756bd7b5-7871-43a3-9bab-6c26c1d88b5c",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentCOPCooling",
+     "n": "aktueller COP Kühlen",
+     "v": "NaN",
+     "u": "",
+     "h": false,
+     "id": "9935ec29-4fb1-4942-82dd-bea58f3280a1",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterPV",
+     "n": "Akt. elektr. Leistung PV",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "63fd7bb0-c0eb-4559-a896-e6b76073721f",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterHeatingPV",
+     "n": "Akt. elektr. Leistung Heizen PV",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "3f002159-9ea3-459a-9226-263db379d0b7",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterTwePV",
+     "n": "Akt. elektr. Leistung TWE PV",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "4157b1bd-2372-4293-8c26-94fddf617f62",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CurrentPowerInverterCoolingPV",
+     "n": "Akt. elektr. Leistung Kühlen PV",
+     "v": 0,
+     "u": "kW",
+     "h": false,
+     "id": "6f550cbe-36da-4ea9-b5bc-ff78217a61b5",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Erforderliche Lüfterdrehzahl",
+     "v": 315.7,
+     "u": "rpm",
+     "h": false,
+     "id": "9f55d4d2-c445-4e33-8dfd-2f9cfa7a8d17",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "B15 - Energiequellen Eintrittstemperatur",
+     "v": 8.1,
+     "u": "°C",
+     "h": false,
+     "id": "ba44d884-8c1c-4c34-a3f8-ecde348c0994",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "B14 - Energiequellen Austrittstemperatur",
+     "v": 5.1,
+     "u": "°C",
+     "h": false,
+     "id": "576361a8-1f00-486b-95d0-0ba0e5030568",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "BOT - Außentemperaturfühler",
+     "v": 8.1,
+     "u": "°C",
+     "h": false,
+     "id": "777c1a8e-ec1c-4a15-9bcc-4ec5b8e0e4f4",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Aktuelles Regelsignal Lüfter",
+     "v": 4.7000003,
+     "u": "V",
+     "h": false,
+     "id": "7e0f915e-9d36-458b-8065-8085ef0ba169",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_RegelsignalSolepumpe",
+     "n": "Aktuelles Regelsignal Solepumpe",
+     "v": 0,
+     "u": "%",
+     "h": false,
+     "id": "9395603f-1421-4dfb-ba4f-44f9ec677581",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_AktuelleLeistungSolepumpe",
+     "n": "Aktuelle Leistung Solepumpe",
+     "v": 0,
+     "u": "%",
+     "h": false,
+     "id": "a02ac47e-2e48-44e1-a415-29dcc50d818e",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "P14 - Durchfluss Solekreis",
+     "v": 0,
+     "u": "l/min",
+     "h": false,
+     "id": "6b1c7564-abcd-4d37-b8b3-684f1822eca6",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Erforderlicher Durchfluss Solekreis",
+     "v": 0,
+     "u": "l/min",
+     "h": false,
+     "id": "d15ee3a8-a4fc-4bd9-9cb3-79d831b59dea",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "geringe Sole Temperatur",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "d1b6c7b9-674c-4722-80af-6a9fe3d44216",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Safety close - Umschaltventil passiv Kühlen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "b7f7790a-1ae8-4af9-9237-0d41dfc960b6",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Schließen - Umschaltventil passiv Kühlen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "5d6170e0-e9ff-4168-ad32-236f42e9c0b9",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Öffnen - Umschaltventil passiv Kühlen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "dceff940-3ec1-4205-92d6-154dc170a6e5",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Passiv Kühlen blockiert durch niedrige Energiequellentemperatur",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "3e4895ae-f44a-4332-aa8c-11f53dc7d6c6",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Betrieb Passiv Kühlen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "de38d2ce-6537-4047-ab4d-3a2f9eea8c4c",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Passiv Kühlen blockiert durch Controller Einstellungen",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "e512c603-ea35-4990-b4c7-f7c3d94dcbe8",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_StorageChargingPumpState",
+     "n": "Betrieb Speicherladepumpe",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "0dc2cb2e-53c8-42d4-878a-1d16f54269ed",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_Link_B16_Vorlauftemperatur_WP",
+     "n": "B16 - Vorlauftemperatur WP",
+     "v": 31.7,
+     "u": "°C",
+     "h": false,
+     "id": "40e9f73c-7ebf-460c-9c95-e6ead91bbfb3",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_Link_B17_Ruecklauftemperatur_WP",
+     "n": "B17 - Rücklauftemperatur WP",
+     "v": 26.9,
+     "u": "°C",
+     "h": false,
+     "id": "9e627a13-e241-44ae-9c49-2e801c3d87a7",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Blockierung WP durch max. Rücklauftemperatur",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "d7bc9f0c-f954-4a2d-92eb-3439886acadf",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Blockierung WP durch min. Rücklauftemperatur",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "800e2897-6c25-468a-b4b5-73f781c3bff4",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Aktuelle Temperaturspreizung Pufferladekreis",
+     "v": 4.8,
+     "u": "K",
+     "h": false,
+     "id": "ea96c7b8-0040-44f0-a332-a9815e7d4061",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_Link_P13_Durchfluss_WP",
+     "n": "P13 - Durchfluss WP",
+     "v": 11.429999,
+     "u": "l/min",
+     "h": false,
+     "id": "92cc6fb0-fede-4980-bd88-a3df3a3085aa",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Erforderlicher Durchfluss Ladekreis",
+     "v": 11.57,
+     "u": "l/min",
+     "h": false,
+     "id": "4e865ae7-9263-45b7-bbff-6c07dd37e26d",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_Link_RegelsignalSpeicherladepumpe",
+     "n": "Aktuelles Regelsignal Speicherladepumpe",
+     "v": 59.8,
+     "u": "%",
+     "h": false,
+     "id": "7e4840ba-db7e-4091-856d-8af00ad6e064",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_AktuelleLeistungSpeicherladepumpe",
+     "n": "Aktuelle Leistung Speicherladepumpe",
+     "v": 35.4,
+     "u": "%",
+     "h": false,
+     "id": "f71dc3e7-39ce-481b-9a40-c3802a85b026",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CoolingValve",
+     "n": "Status Umschaltventil Heizung/Kühlung",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "d86800c0-c2f9-4cc3-883d-e884369752fb",
+     "ul": 10,
+     "pv": "XR_3way_valve_Cool"
+    },
+    {
+     "w": "Rubin_3WayValve",
+     "n": "Status Umschaltventil Heizung/TWE",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "a34c30dd-11fe-460a-a042-14dcd836e186",
+     "ul": 10,
+     "pv": "XR_3way_valve_DHW"
+    },
+    {
+     "w": null,
+     "n": "Vorbereitung Verdichterstart",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "ccc26713-4e15-402b-81bc-dba73b47ae71",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Sperre Verdichterstart durch niedrige Öltemperatur",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "d2b5e8c8-9c30-4257-9582-c141692d3209",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Anforderung Ölheizung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "5848a2eb-132d-4f91-897d-dc84141bf692",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_Oelheizung",
+     "n": "Ölheizung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "96423f5a-b0d8-4999-9fcb-53949737de63",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Verdichtersperre durch Mindeststandzeit zwischen zwei Verdichterstarts",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "d76b9940-c2cf-4d78-a112-616ca2d48869",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Verdichtersperre durch Mindeststandzeit zwischen Verdichterstopp und -start",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "077ea93f-e3e7-47c8-8abe-7d6d70ead3b8",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Sperre Verdichterstopp durch Mindestlaufzeit",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "326c02d8-4119-4b14-9696-d0884d36c8bc",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Countdown bis zur Ölrückführung",
+     "v": 9742,
+     "u": "s",
+     "h": false,
+     "id": "c4f540f0-be0d-4842-8787-999cd13069a6",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_CompressorBlockLowTemperaturSecondaryDefrosting",
+     "n": "Verdichtersperre durch min. Ladekreistemperaturen Abtauung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "80681518-9d3a-43ea-ac74-07a253e791f1",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Blockierung nach Abtauung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "ed688d69-88e7-4068-8d38-6a4a5c1d7abb",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Verdichter speed skipping 01 aktiv",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "beb1ae7d-242d-45d8-b5b2-c0fc74e23669",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Verdichter speed skipping 02 aktiv",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "7f80d3b0-865e-402e-8af0-71c706335e8f",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Verdichter speed skipping 03 aktiv",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "9998bc12-26e3-433c-bf8e-325b2ddbfd67",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Verdichterbetrieb wird durch Einstellung des Reglers blockiert",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "fc81ac75-c9ef-4024-8125-2d5840dd0dcd",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockHighTemperaturePrimary",
+     "n": "hohe EQ Temperatur (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "5742b9ec-13ba-4046-b4e6-599d13d4138d",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockLowTemperaturePrimary",
+     "n": "geringe EQ Temperatur (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "3f2ad9f6-fd75-4a78-9e8d-438bf496504b",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockHighTemperatureSecondary",
+     "n": "hohe Rücklauftemperatur WP (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "df35ee32-647e-4797-8009-ae863730f991",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockLowTemperatureSecondary",
+     "n": "geringe Rücklauftemperatur WP (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "17f63f37-d2f6-4767-ada5-5fbca834bb9f",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hohe Druckdifferenz (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "59a6ba42-6ac1-4a44-a77c-4fbb9d1f0c0b",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hoher Hochdruck (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "3e44c24c-92c2-46fb-906b-26136455266e",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Überlast Verdichter Motor (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "f590aa54-b22f-4fc0-9d1c-a71ac622191e",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hoher Niederdruck (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "25f0a0fb-1e4e-441b-8d52-acaee2c170fa",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringes Verdichtungsverhältnis (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "008bea0c-cd6b-4cba-8273-355c20b5e46f",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringes Druckdelta (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "38d35ed8-ae8c-48ae-aa37-06ebbb1a4ff8",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringer Hochdruck (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "52a382fb-c5d3-431e-b0f6-2f3cb960a47e",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringer Niederdruck (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "5ce094dc-54b4-4e37-bbc4-92d89d3708ea",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hohes Verdichtungsverhältnis (Heizen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "5958e668-7c15-427f-939a-0848c7e532a1",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockHighTemperaturePrimaryCooling",
+     "n": "hohe EQ Temperatur (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "e3406c59-e273-4ff3-b19d-167963ac9d18",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockLowTemperaturePrimaryCooling",
+     "n": "geringe EQ Temperatur (Kühlen)",
+     "v": true,
+     "u": "",
+     "h": false,
+     "id": "5de07bd0-5faa-4ec2-a318-d82f04987986",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockHighTemperatureSecondaryCooling",
+     "n": "hohe Rücklauftemperatur WP (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "fe78bd65-ba26-40a7-8eb2-e1b8dc9e41a7",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": "Rubin_CompressorBlockLowTemperatureSecondaryCooling",
+     "n": "geringe Rücklauftemperatur WP (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "82f7722c-1d3d-472e-8a28-6f0a8d37c26c",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hohe Druckdifferenz (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "55fa76c6-a5a2-4be6-b254-57d2ae34bb2c",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hoher Hochdruck (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "8ebb1032-5a3d-4a44-9201-4e5b0aa82604",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Überlast Verdichter Motor (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "292e684e-51e2-4dab-9726-c805f092db83",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hoher Niederdruck (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "3ce311c3-c4d2-4eed-9a54-59591d646e73",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringes Verdichtungsverhältnis (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "7f6597c6-1ae1-4e36-81dd-0f52188ffd47",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringes Druckdelta (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "8d809fc2-838c-4195-a227-109f9296f332",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringer Hochdruck (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "80bd71fa-5ac7-451a-9ce0-923e9eb57ec7",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "geringer Niederdruck (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "e149b16c-46a6-44e9-92a1-19febb64e7d7",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "hohes Verdichtungsverhältnis (Kühlen)",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "d9155033-0aac-4aa7-9657-2b86c6463d2e",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Alarm Reset",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "5abea169-3b72-4d14-add6-ac8f6aaed9eb",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Warnung Reset",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "7660364f-20a7-474f-a87c-cd69b2893579",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Globaler Alarm",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "87d40d2b-e363-42bf-b25c-7deeeb2082c2",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Globale Warnung",
+     "v": false,
+     "u": "",
+     "h": false,
+     "id": "aa096a56-ca82-4172-824a-8a5419de631c",
+     "ul": 10,
+     "pv": "JN"
+    },
+    {
+     "w": null,
+     "n": "Betriebsstunden - Lüfter",
+     "v": 962.4329,
+     "u": "h",
+     "h": false,
+     "id": "70a29b09-e629-4e8c-8e3f-d4c3dff49ddc",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Betriebsstunden - Speicherladepumpe",
+     "v": 998.09143,
+     "u": "h",
+     "h": false,
+     "id": "2dab0a0c-3cca-454b-a456-79bd0ee973a3",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_OperationHoursCompressor",
+     "n": "Betriebsstunden - Verdichter",
+     "v": 977.66425,
+     "u": "h",
+     "h": false,
+     "id": "7d291fb2-8756-4d80-b3d6-d71c9575ae88",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Anzahl der Verdichterstarts",
+     "v": 324,
+     "u": "",
+     "h": false,
+     "id": "0cb2e968-c358-4b2f-b67c-83ee2a763d4c",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Betriebsstunden - Solepumpe",
+     "v": 0,
+     "u": "h",
+     "h": false,
+     "id": "dc5ff1a5-426e-4f58-a30e-19fd450bc389",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Produktionsnummer",
+     "v": "REDACTED",
+     "u": "",
+     "h": false,
+     "id": "4c7c26a8-b281-42c1-87fb-d9b258e8373f",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_DeviceSubType",
+     "n": "Geräte Subtyp",
+     "v": 2,
+     "u": "",
+     "h": false,
+     "id": "f064b11c-1670-42ee-82ad-e5ba3f1c33ba",
+     "ul": 10,
+     "pv": "XR_Subtype"
+    },
+    {
+     "w": null,
+     "n": "Seriennummer",
+     "v": "REDACTED",
+     "u": "",
+     "h": false,
+     "id": "841d8315-fbd4-4645-aed0-44821409d9fc",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Gerätename",
+     "v": "x-change dynamic pro",
+     "u": "",
+     "h": false,
+     "id": "8b850d8e-aed8-4dbf-95b0-c0f8d06a3952",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Name Wärmepumpe",
+     "v": "xchange dynamic pro S AW E",
+     "u": "",
+     "h": false,
+     "id": "9a5e3cf6-2f6e-441d-9387-3d870cec5331",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_SWVersion_Major",
+     "n": "Version SW: Major",
+     "v": 3,
+     "u": "",
+     "h": false,
+     "id": "9420e571-12ba-4288-95f9-c1e18c9502b3",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_SWVersion_Minor",
+     "n": "Version SW: Minor",
+     "v": 8,
+     "u": "",
+     "h": false,
+     "id": "af15f8ce-37f9-4b4d-8755-b107ed09ce33",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": "Rubin_SWVersion_Patch",
+     "n": "Version SW: Patch",
+     "v": 8,
+     "u": "",
+     "h": false,
+     "id": "016e4eea-b678-4c00-a9fe-2c6ab60eaa45",
+     "ul": 10,
+     "pv": null
+    },
+    {
+     "w": null,
+     "n": "Softwareupdate Status Update (Controller)",
+     "v": 0,
+     "u": "",
+     "h": false,
+     "id": "d414be68-24f2-46a8-ae00-7a96921d7224",
+     "ul": 10,
+     "pv": "XR_StateUpdate"
+    }
+   ]
+  }
+ ]
+}

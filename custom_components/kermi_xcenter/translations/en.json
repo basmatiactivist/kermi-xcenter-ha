@@ -1,0 +1,271 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Kermi x-center",
+        "description": "Local connection to the x-center web interface. Read-only by default; control must be enabled explicitly in the options.",
+        "data": {
+          "host": "Host",
+          "password": "Password"
+        },
+        "data_description": {
+          "host": "IP address or host name of the x-center, e.g. 192.168.1.50",
+          "password": "Password of the x-center web interface"
+        }
+      },
+      "reconfigure": {
+        "title": "Change connection",
+        "description": "Change the host or password. Leave the password empty to keep the current one.",
+        "data": {
+          "host": "Host",
+          "password": "Password"
+        },
+        "data_description": {
+          "host": "IP address or host name of the x-center, e.g. 192.168.1.50",
+          "password": "Password of the x-center web interface"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Password rejected",
+        "description": "The x-center at {host} rejected the stored password. Enter the current password.",
+        "data": {
+          "password": "Password"
+        },
+        "data_description": {
+          "password": "Password of the x-center web interface"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the x-center.",
+      "invalid_auth": "The x-center rejected the password.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This x-center is already configured.",
+      "reconfigure_successful": "The connection was updated.",
+      "reauth_successful": "The password was updated.",
+      "wrong_device": "This is a different x-center than the configured one."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options",
+        "data": {
+          "scan_interval": "Poll interval",
+          "allow_writes": "Allow control (writes)"
+        },
+        "data_description": {
+          "scan_interval": "Seconds between two reads (minimum 15). The x-center is polled gently; on errors the interval is backed off up to 15 minutes.",
+          "allow_writes": "Off by default. Only enable this if you really want Home Assistant to change settings on the heat pump."
+        }
+      },
+      "confirm_writes": {
+        "title": "Really allow control?",
+        "description": "WARNING: With this option Home Assistant can CHANGE settings on the heat pump: start a one-time hot water charge, set the hot water setpoints (40-55 °C) and switch the energy mode of the heating circuit. Wrong settings can cause discomfort, higher energy costs or legionella risk. The write path has NOT been tested on real hardware. Every write is limited to safe ranges and to one write per value every 5 minutes and is logged. Only confirm if you accept this risk.",
+        "data": {
+          "confirm_writes": "I understand the risk and want to allow writes"
+        }
+      }
+    },
+    "error": {
+      "confirm_required": "Please tick the confirmation box, or go back and leave control disabled."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "thermal_power": {
+        "name": "Thermal power"
+      },
+      "thermal_power_heating": {
+        "name": "Thermal power heating"
+      },
+      "thermal_power_dhw": {
+        "name": "Thermal power hot water"
+      },
+      "electrical_power": {
+        "name": "Electrical power"
+      },
+      "electrical_power_heating": {
+        "name": "Electrical power heating"
+      },
+      "electrical_power_dhw": {
+        "name": "Electrical power hot water"
+      },
+      "cop": {
+        "name": "COP"
+      },
+      "cop_heating": {
+        "name": "COP heating"
+      },
+      "cop_dhw": {
+        "name": "COP hot water"
+      },
+      "requested_power_heating": {
+        "name": "Requested power heating"
+      },
+      "requested_power_dhw": {
+        "name": "Requested power hot water"
+      },
+      "heat_pump_state": {
+        "name": "Heat pump state (code)"
+      },
+      "state_since": {
+        "name": "State since"
+      },
+      "flow_temp": {
+        "name": "Flow temperature (B16)"
+      },
+      "return_temp": {
+        "name": "Return temperature (B17)"
+      },
+      "air_inlet_temp": {
+        "name": "Air inlet temperature (B15)"
+      },
+      "air_outlet_temp": {
+        "name": "Air outlet temperature (B14)"
+      },
+      "outdoor_temp_hp": {
+        "name": "Outdoor temperature sensor (BOT)"
+      },
+      "spread": {
+        "name": "Temperature spread"
+      },
+      "flow_rate": {
+        "name": "Flow rate (P13)"
+      },
+      "required_flow_rate": {
+        "name": "Required flow rate"
+      },
+      "fan_speed": {
+        "name": "Required fan speed"
+      },
+      "charging_pump_power": {
+        "name": "Charging pump power"
+      },
+      "compressor_starts": {
+        "name": "Compressor starts"
+      },
+      "hours_compressor": {
+        "name": "Run hours compressor"
+      },
+      "hours_fan": {
+        "name": "Run hours fan"
+      },
+      "hours_charging_pump": {
+        "name": "Run hours charging pump"
+      },
+      "software_version": {
+        "name": "Software version"
+      },
+      "outdoor_temp": {
+        "name": "Outdoor temperature"
+      },
+      "outdoor_temp_avg": {
+        "name": "Outdoor temperature (averaged)"
+      },
+      "outdoor_temp_season": {
+        "name": "Outdoor temperature (season)"
+      },
+      "circuit_temp": {
+        "name": "Heating circuit temperature"
+      },
+      "circuit_setpoint": {
+        "name": "Heating circuit setpoint"
+      },
+      "buffer_temp": {
+        "name": "Buffer temperature"
+      },
+      "buffer_setpoint": {
+        "name": "Buffer setpoint"
+      },
+      "mixer_position": {
+        "name": "Mixer position"
+      },
+      "energy_mode": {
+        "name": "Energy mode",
+        "state": {
+          "off": "Off",
+          "eco": "Eco",
+          "normal": "Normal",
+          "comfort": "Comfort",
+          "custom": "Custom"
+        },
+        "state_attributes": {
+          "raw_value": {
+            "name": "Raw value"
+          }
+        }
+      },
+      "circuit_pump_hours": {
+        "name": "Run hours heating circuit pump"
+      },
+      "dhw_temp": {
+        "name": "Hot water temperature"
+      },
+      "dhw_setpoint": {
+        "name": "Hot water setpoint"
+      },
+      "dhw_one_time_setpoint": {
+        "name": "One-time charge setpoint"
+      }
+    },
+    "binary_sensor": {
+      "heating_active": {
+        "name": "Heating"
+      },
+      "dhw_active": {
+        "name": "Hot water charging"
+      },
+      "cooling_active": {
+        "name": "Cooling"
+      },
+      "defrosting": {
+        "name": "Defrosting"
+      },
+      "pv_modulation": {
+        "name": "PV modulation"
+      },
+      "global_alarm": {
+        "name": "Global alarm"
+      },
+      "global_warning": {
+        "name": "Global warning"
+      },
+      "charging_pump": {
+        "name": "Charging pump"
+      },
+      "summer_mode": {
+        "name": "Summer mode"
+      },
+      "one_time_charge": {
+        "name": "One-time charge"
+      }
+    },
+    "button": {
+      "dhw_one_time_charge_start": {
+        "name": "Heat up hot water once"
+      }
+    },
+    "number": {
+      "dhw_one_time_setpoint_control": {
+        "name": "One-time charge setpoint (control)"
+      },
+      "dhw_setpoint_control": {
+        "name": "Hot water setpoint (control)"
+      }
+    },
+    "select": {
+      "energy_mode_control": {
+        "name": "Energy mode (control)",
+        "state": {
+          "eco": "Eco",
+          "normal": "Normal",
+          "comfort": "Comfort",
+          "custom": "Custom"
+        }
+      }
+    }
+  }
+}
