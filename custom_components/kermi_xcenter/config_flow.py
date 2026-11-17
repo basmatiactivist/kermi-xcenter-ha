@@ -66,8 +66,10 @@ class KermiConfigFlow(ConfigFlow, domain=DOMAIN):
         try:
             return await async_validate(self.hass, host, password)
         except KermiAuthError:
+            _LOGGER.warning("x-center at %s rejected the password", host)
             errors["base"] = "invalid_auth"
-        except (KermiError, ValueError):
+        except (KermiError, ValueError) as err:
+            _LOGGER.warning("Cannot connect to x-center at %s: %s", host, err)
             errors["base"] = "cannot_connect"
         except Exception:
             _LOGGER.exception("Unexpected error while validating the x-center")

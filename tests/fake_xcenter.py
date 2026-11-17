@@ -6,6 +6,7 @@ must not use is recorded in ``forbidden`` and answered with 404.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import secrets
 from pathlib import Path
@@ -57,6 +58,7 @@ class FakeXCenter:
         self.write_status_code = 0
         self.writes: list[dict[str, Any]] = []
         self.redirect_login = False
+        self.chunked = False  # send bodies in small pieces, like a slow network
         self.huge_device_list = False
         self.devices: list[dict[str, Any]] = []
         self.configs: dict[int, list[dict[str, Any]]] = {}
@@ -119,7 +121,7 @@ class FakeXCenter:
 
     async def start(self) -> None:
         app = web.Application()
-        app.router.add_route("*", "/{tail:.*}", self._handle)
+        app.router.add_route("*", "/{tail:.*}", self._route)
         self.server = TestServer(app, host="127.0.0.1")
         await self.server.start_server()
 
@@ -130,6 +132,24 @@ class FakeXCenter:
     # ------------------------------------------------------------ handler
     def _json(self, data: Any, status: int = 200) -> web.Response:
         return web.Response(text=json.dumps(data), status=status, content_type="application/json")
+
+    async def _route(self, request: web.Request) -> web.StreamResponse:
+        resp = await self._handle(request)
+        if not self.chunked or resp.body is None or resp.status != 200:
+            return resp
+        body = bytes(resp.body)
+        stream = web.StreamResponse(status=resp.status, headers=resp.headers)
+        stream.content_type = "application/json"
+        for name, morsel in resp.cookies.items():
+            stream.set_cookie(name, morsel.value)
+        stream.enable_chunked_encoding()
+        await stream.prepare(request)
+        for start in range(0, len(body), 37):
+            await stream.write(body[start : start + 37])
+            await asyncio.sleep(0)
+            await asyncio.sleep(0.001)
+        await stream.write_eof()
+        return stream
 
     async def _handle(self, request: web.Request) -> web.Response:
         path = request.path

@@ -213,3 +213,37 @@ async def test_oversized_response_rejected(xcenter: FakeXCenter) -> None:
             await client.get_all_devices()
     finally:
         await client.close()
+
+
+async def test_body_arriving_in_pieces(xcenter: FakeXCenter) -> None:
+    """A real network delivers bodies in several pieces; all must be read."""
+    xcenter.chunked = True
+    hp_id = xcenter.device_id("x-change")
+    client = _client(xcenter)
+    try:
+        devices = await client.get_all_devices()
+        values = await client.read_values(
+            [(c["DatapointConfigId"], hp_id) for c in xcenter.configs[97]]
+        )
+    finally:
+        await client.close()
+    assert len(devices) == 4
+    assert len(values) == 116
+
+
+async def test_non_xcenter_login_answer_is_not_a_password_error(xcenter: FakeXCenter) -> None:
+    """A device that answers without isValid is 'cannot connect', not 'wrong password'."""
+    client = _client(xcenter)
+    original = xcenter._json
+
+    def no_is_valid(data, status=200):
+        if isinstance(data, dict) and "isValid" in data:
+            data = {"hello": "world"}
+        return original(data, status)
+
+    xcenter._json = no_is_valid
+    try:
+        with pytest.raises(KermiConnectionError, match="isValid"):
+            await client.login()
+    finally:
+        await client.close()

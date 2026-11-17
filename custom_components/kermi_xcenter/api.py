@@ -260,12 +260,18 @@ class KermiClient:
                     raise KermiConnectionError(f"{endpoint}: unexpected redirect")
                 if (resp.content_length or 0) > MAX_RESPONSE_BYTES:
                     raise KermiConnectionError(f"{endpoint}: response too large")
-                raw = await resp.content.read(MAX_RESPONSE_BYTES + 1)
-                if len(raw) > MAX_RESPONSE_BYTES:
-                    raise KermiConnectionError(f"{endpoint}: response too large")
+                # Read the whole body in chunks (a single read() may return
+                # only part of it), enforcing the size limit while reading.
+                buf = bytearray()
+                async for chunk in resp.content.iter_chunked(65536):
+                    buf.extend(chunk)
+                    if len(buf) > MAX_RESPONSE_BYTES:
+                        raise KermiConnectionError(f"{endpoint}: response too large")
+                raw = bytes(buf)
                 # stdlib json on purpose: the x-center sends bare NaN literals,
                 # which strict decoders (e.g. orjson used by HA) reject.
-                text = raw.decode("utf-8", errors="replace")  # JSON is UTF-8 (RFC 8259)
+                # JSON is UTF-8 (RFC 8259); tolerate a byte order mark.
+                text = raw.decode("utf-8-sig", errors="replace")
                 try:
                     body = json.loads(text) if text.strip() else None
                 except ValueError as err:
@@ -288,6 +294,8 @@ class KermiClient:
                 data = body.get("ResponseData")
                 if valid is None and isinstance(data, dict):
                     valid = data.get("isValid")
+            if valid is None:
+                raise KermiConnectionError("Login answer has no isValid: not an x-center?")
             if not valid:
                 raise KermiAuthError("Login rejected by x-center")
             self._logged_in = True
