@@ -9,6 +9,10 @@ und Binärsensoren in Home Assistant bereit.
 > weder unterstützt noch geprüft. «Kermi», «x-center» und «x-change» sind Marken ihrer
 > jeweiligen Inhaber.
 
+> **Ausführliche Anleitung:** [docs/ANLEITUNG.md](docs/ANLEITUNG.md) erklärt Installation,
+> Einrichtung, den Wechsel zwischen «Nur lesen» und «Steuerung», Updates, Fehlersuche und
+> den Umstieg von kermi-ha-bridge.
+
 ## Unterstützte Anlagen
 
 Die Datenpunkte stammen aus dem Live-Katalog **einer** Anlage:
@@ -27,9 +31,10 @@ Einschränkungen:
   «Trinkwasser»), wie sie die deutschsprachige x-center-Oberfläche liefert. Bei anderen Namen
   fehlen die betroffenen Geräte. Die Wärmepumpe wird ersatzweise über ihren Gerätetyp erkannt.
 - **Heizkreis:** Unterstützt wird ein Heizkreis.
-- **Teststand:** Version 0.1.0 ist bisher nur gegen einen Nachbau der API getestet, der aus
-  diesem Katalog gebaut ist. Erfahrungsberichte von anderen Anlagen sind willkommen, bitte als
-  Issue mit heruntergeladenen Diagnosedaten. Diese sind geschwärzt.
+- **Teststand:** Der Lesebetrieb läuft seit November 2026 an der oben genannten Anlage. Der
+  optionale Schreibweg ist nur gegen einen Nachbau der API getestet. Erfahrungsberichte von
+  anderen Anlagen sind willkommen, bitte als Issue mit heruntergeladenen Diagnosedaten. Diese
+  sind geschwärzt.
 
 ## Standard: nur lesen – technisch erzwungen
 
