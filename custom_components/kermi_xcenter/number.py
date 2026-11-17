@@ -71,7 +71,8 @@ class KermiNumber(KermiEntity, NumberEntity):
     @property
     def native_value(self) -> float | None:
         """Return the current value."""
-        return self._value
+        value = self._value
+        return float(value) if value is not None else None
 
     async def async_set_native_value(self, value: float) -> None:
         """Write the value through the guarded write path."""

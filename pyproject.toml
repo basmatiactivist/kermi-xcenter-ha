@@ -1,6 +1,6 @@
 [project]
 name = "kermi-xcenter-ha"
-version = "0.1.2"
+version = "0.2.0"
 description = "Read-only Home Assistant integration for the Kermi x-center"
 requires-python = ">=3.13"
 license = "MIT"

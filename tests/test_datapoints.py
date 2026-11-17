@@ -33,7 +33,19 @@ def test_roles_matched(fake: FakeXCenter) -> None:
 
 def test_every_datapoint_resolves(fake: FakeXCenter) -> None:
     resolved = resolve_datapoints(match_role_devices(fake.devices), fake.configs)
-    assert set(resolved) == {dp.key for dp in DATAPOINTS}
+    classic_only = {
+        dp.key for dp in DATAPOINTS if (dp.wkn or "").startswith("HP_") and not dp.display_name
+    }
+    assert classic_only == {
+        "hp_energy_electric_total",
+        "hp_energy_heat_total",
+        "hp_energy_electric_heating",
+        "hp_energy_electric_dhw",
+        "hp_scop",
+        "hp_cop_heating_avg",
+    }
+    assert set(resolved) == {dp.key for dp in DATAPOINTS} - classic_only
+    assert all(rd.is_primary_match for rd in resolved.values())
     assert len({dp.key for dp in DATAPOINTS}) == len(DATAPOINTS)
     for key, rd in resolved.items():
         assert (rd.config_id, rd.device_id) in fake.values, key
@@ -109,3 +121,67 @@ def test_values_from_catalogue(fake: FakeXCenter) -> None:
 )
 def test_convert_value(key: str, raw, expected) -> None:
     assert convert_value(DATAPOINTS_BY_KEY[key], raw) == expected
+
+
+def _classic_fake() -> tuple[list[dict], dict[int, list[dict]]]:
+    """A synthetic classic-firmware unit: one device, HP_* WellKnownNames."""
+    names = {
+        "HP_HeatpumpState": "a",
+        "HP_HeatOutput": "b",
+        "HP_AktuelleMotorleistungKW": "c",
+        "HP_TotalCOP": "d",
+        "HP_TWETempIst": "e",
+        "HP_TWESollEinmal": "f",
+        "HP_StrommengeGesamt": "g",
+        "HP_WaermemengeGesamt": "h",
+        "HP_EnergyModeHk1": "i",
+        "Aussentemperatur": "j",
+    }
+    configs = [
+        {
+            "DatapointConfigId": f"0000000{cid}-0000-0000-0000-000000000000",
+            "WellKnownName": wkn,
+            "DisplayName": wkn,
+            "MinValue": 0,
+            "MaxValue": 85,
+        }
+        for wkn, cid in names.items()
+    ]
+    devices = [
+        {"DeviceId": "00000000-0000-0000-0000-00000000000a", "DeviceType": 0, "Name": "IFM"},
+        {"DeviceId": "00000000-0000-0000-0000-00000000000b", "DeviceType": 61, "Name": "Anlage"},
+    ]
+    return devices, {61: configs}
+
+
+def test_classic_firmware_resolution() -> None:
+    devices, configs = _classic_fake()
+    roles = match_role_devices(devices)
+    assert roles == {}  # neither names nor DeviceType 97 match
+    resolved = resolve_datapoints(roles, configs, all_devices=devices)
+    assert {
+        "hp_state",
+        "hp_thermal_power",
+        "hp_electrical_power",
+        "hp_cop",
+        "ww_temp",
+        "ww_one_time_setpoint",
+        "hp_energy_electric_total",
+        "hp_energy_heat_total",
+        "hz_energy_mode",
+        "hz_outdoor_temp",
+    } == set(resolved)
+    assert resolved["ww_temp"].matched_wkn == "HP_TWETempIst"
+    assert not resolved["ww_temp"].is_primary_match
+    assert resolved["hp_energy_heat_total"].is_primary_match  # classic-only spec
+    assert all(rd.device_id.endswith("b") for rd in resolved.values())
+
+
+def test_rubin_role_devices_are_not_searched_across() -> None:
+    """With all roles present, DisplayName matches never jump to another device."""
+    fake = FakeXCenter()
+    resolved = resolve_datapoints(
+        match_role_devices(fake.devices), fake.configs, all_devices=fake.devices
+    )
+    assert resolved["ww_temp"].device_id == fake.device_id("Trinkwasser").lower()
+    assert resolved["hz_buffer_temp"].device_id == fake.device_id("Heizen").lower()

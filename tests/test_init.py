@@ -83,7 +83,8 @@ async def test_setup_and_entities(hass: HomeAssistant, xcenter: FakeXCenter) -> 
 
     ent_reg = er.async_get(hass)
     entries = er.async_entries_for_config_entry(ent_reg, entry.entry_id)
-    assert len(entries) == len(SENSORS) + len(BINARY_SENSORS)
+    classic_only = 6  # energy counters, SCOP, average COP: classic firmware only
+    assert len(entries) == len(SENSORS) + len(BINARY_SENSORS) - classic_only
     disabled = {e.unique_id for e in entries if e.disabled_by}
     assert f"{UID}_heat_pump_outdoor_temp_hp" in disabled
     assert f"{UID}_heat_pump_flow_temp" not in disabled
@@ -220,6 +221,11 @@ def test_translations_complete() -> None:
             SELECTS[0].options
         )
         assert "confirm_writes" in data["options"]["step"]
+    icons = json.loads((PACKAGE / "icons.json").read_text("utf-8"))["entity"]
+    en = json.loads((PACKAGE / "strings.json").read_text("utf-8"))["entity"]
+    for platform, keys in icons.items():
+        for key in keys:
+            assert key in en[platform], (platform, key)
         for path in PACKAGE.glob("*.py"):
             for key in re.findall(r'translation_key="([a-z_]+)"', path.read_text("utf-8")):
                 if "translation_domain" in path.read_text("utf-8"):
@@ -230,3 +236,55 @@ def test_translations_complete() -> None:
     de = json.loads((PACKAGE / "translations/de.json").read_text("utf-8"))
     assert de["entity"]["sensor"]["energy_mode"]["state"]["comfort"] == "Komfort"
     assert de["entity"]["sensor"]["flow_temp"]["name"] == "Vorlauftemperatur (B16)"
+
+
+async def test_polls_only_enabled_entities_and_static_once(
+    hass: HomeAssistant, xcenter: FakeXCenter
+) -> None:
+    entry = await _setup(hass, xcenter)
+    coordinator = entry.runtime_data
+    resolved = coordinator.resolved
+
+    def key(name: str) -> tuple[str, str]:
+        return (resolved[name].config_id, resolved[name].device_id)
+
+    xcenter.read_keys.clear()
+    await coordinator.async_refresh()
+    await hass.async_block_till_done()
+    polled = set().union(*xcenter.read_keys)
+    assert key("hp_flow_temp") in polled  # enabled entity
+    assert key("hp_outdoor_temp") not in polled  # entity disabled by default
+    assert key("hp_serial") not in polled  # static, read once at setup
+    assert key("hp_sw_major") not in polled
+    assert len(polled) < len(resolved)
+    # static values are still available to entities and device info
+    assert _state(hass, "sensor", "heat_pump_software_version").state == "3.8.8"
+
+
+async def test_operation_state(hass: HomeAssistant, xcenter: FakeXCenter) -> None:
+    entry = await _setup(hass, xcenter)
+    state = _state(hass, "sensor", "heat_pump_operation")
+    assert state.state == "heating"
+    assert state.attributes["state_code"] == 4
+    xcenter.set_value("x-change", "Abtauen", True)
+    await entry.runtime_data.async_refresh()
+    await hass.async_block_till_done()
+    assert _state(hass, "sensor", "heat_pump_operation").state == "defrosting"
+    for name in ("Abtauen", "Heizen", "TWE", "Kühlen"):
+        xcenter.set_value("x-change", name, False)
+    await entry.runtime_data.async_refresh()
+    await hass.async_block_till_done()
+    assert _state(hass, "sensor", "heat_pump_operation").state == "standby"
+
+
+async def test_compressor_blocks(hass: HomeAssistant, xcenter: FakeXCenter) -> None:
+    entry = await _setup(hass, xcenter)
+    assert _state(hass, "sensor", "heat_pump_compressor_blocks").state == "0"
+    assert _state(hass, "binary_sensor", "heat_pump_compressor_blocked").state == STATE_OFF
+    xcenter.set_value("x-change", "Blockierung nach Abtauung", True)
+    await entry.runtime_data.async_refresh()
+    await hass.async_block_till_done()
+    blocks = _state(hass, "sensor", "heat_pump_compressor_blocks")
+    assert blocks.state == "1"
+    assert blocks.attributes["active"] == ["Blockierung nach Abtauung"]
+    assert _state(hass, "binary_sensor", "heat_pump_compressor_blocked").state == STATE_ON

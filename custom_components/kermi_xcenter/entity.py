@@ -25,6 +25,12 @@ class KermiEntityDescription(EntityDescription):
     # Datapoint keys this entity needs; the first one is its value by default.
     datapoints: tuple[str, ...]
     value_fn: Callable[[dict[str, Any]], Any] | None = None
+    # Further datapoints that are polled for this entity but not required
+    # (e.g. for attributes).
+    extra_datapoints: tuple[str, ...] = ()
+    # True: created when at least one datapoint exists, available when at
+    # least one has a value (used for lists such as compressor blocks).
+    any_datapoint: bool = False
 
 
 def entry_uid(coordinator: KermiCoordinator) -> str:
@@ -79,6 +85,14 @@ class KermiEntity(CoordinatorEntity[KermiCoordinator]):
         )
         self._attr_device_info = build_device_info(coordinator, description.role)
 
+    async def async_added_to_hass(self) -> None:
+        """Have the coordinator poll this entity's datapoints."""
+        await super().async_added_to_hass()
+        description = self.entity_description
+        self.async_on_remove(
+            self.coordinator.subscribe(description.datapoints + description.extra_datapoints)
+        )
+
     @property
     def _value(self) -> Any:
         data = self.coordinator.data or {}
@@ -90,14 +104,16 @@ class KermiEntity(CoordinatorEntity[KermiCoordinator]):
     def available(self) -> bool:
         """Unavailable when the x-center reports NaN / not connected."""
         data = self.coordinator.data or {}
-        return super().available and all(
-            data.get(key) is not None for key in self.entity_description.datapoints
-        )
+        values = [data.get(key) for key in self.entity_description.datapoints]
+        if self.entity_description.any_datapoint:
+            return super().available and any(v is not None for v in values)
+        return super().available and all(v is not None for v in values)
 
 
 def supported(coordinator: KermiCoordinator, description: KermiEntityDescription) -> bool:
-    """Whether all datapoints of a description were found in the catalogue."""
-    return all(key in coordinator.resolved for key in description.datapoints)
+    """Whether the datapoints of a description were found in the catalogue."""
+    found = [key in coordinator.resolved for key in description.datapoints]
+    return any(found) if description.any_datapoint else all(found)
 
 
 def raise_write_error(err: KermiError) -> NoReturn:

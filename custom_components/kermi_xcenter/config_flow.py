@@ -6,7 +6,10 @@ import logging
 from collections.abc import Mapping
 from typing import Any
 
-import voluptuous as vol
+try:  # Home Assistant 2026.10+ validates flow schemas with probatio
+    import probatio as vol
+except ImportError:  # older Home Assistant versions use voluptuous
+    import voluptuous as vol  # type: ignore[no-redef]
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,

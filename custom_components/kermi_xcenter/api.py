@@ -245,7 +245,7 @@ class KermiClient:
             async with self._session.request(
                 method,
                 self._url(endpoint),
-                json=dict(payload) if method == "POST" else None,
+                json=dict(payload) if method == "POST" and payload is not None else None,
                 timeout=self._timeout,
                 # Never follow redirects: the password must only go to the
                 # host the user configured.
@@ -338,6 +338,9 @@ class KermiClient:
         # (b) datapoint on the writable allowlist
         if spec is None or DATAPOINTS_BY_KEY.get(rd.spec.key) is not rd.spec:
             return "datapoint is not writable"
+        if not rd.is_primary_match:
+            # Found via a classic-firmware alternative: never verified, never written.
+            return "datapoint matched via classic firmware name (read-only)"
         # (c) value inside our own safety envelope ...
         if spec.allowed_values is not None and (
             isinstance(value, bool) != spec.is_bool or value not in spec.allowed_values

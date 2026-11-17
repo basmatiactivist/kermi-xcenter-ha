@@ -234,6 +234,50 @@
       "heater_hours": {
         "name": "Run hours heater (external heat generator)"
       },
+      "operation": {
+        "name": "Operating state",
+        "state": {
+          "defrosting": "Defrosting",
+          "dhw": "Hot water",
+          "heating": "Heating",
+          "cooling": "Cooling",
+          "standby": "Standby"
+        },
+        "state_attributes": {
+          "state_code": {
+            "name": "State code"
+          }
+        }
+      },
+      "compressor_blocks": {
+        "name": "Active compressor blocks",
+        "state_attributes": {
+          "active": {
+            "name": "Active blocks"
+          }
+        }
+      },
+      "oil_return_countdown": {
+        "name": "Time until oil return"
+      },
+      "energy_electric_total": {
+        "name": "Electrical energy total"
+      },
+      "energy_heat_total": {
+        "name": "Heat energy total"
+      },
+      "energy_electric_heating": {
+        "name": "Electrical energy heating"
+      },
+      "energy_electric_dhw": {
+        "name": "Electrical energy hot water"
+      },
+      "scop": {
+        "name": "SCOP"
+      },
+      "cop_heating_avg": {
+        "name": "Average COP heating"
+      },
       "dhw_temp": {
         "name": "Hot water temperature"
       },
@@ -245,6 +289,15 @@
       }
     },
     "binary_sensor": {
+      "compressor_blocked": {
+        "name": "Compressor blocked"
+      },
+      "oil_heating": {
+        "name": "Oil heating"
+      },
+      "compressor_start_preparing": {
+        "name": "Compressor start preparing"
+      },
       "heating_active": {
         "name": "Heating"
       },

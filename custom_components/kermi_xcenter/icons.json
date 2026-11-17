@@ -1,0 +1,189 @@
+{
+  "entity": {
+    "sensor": {
+      "thermal_power": {
+        "default": "mdi:fire"
+      },
+      "thermal_power_heating": {
+        "default": "mdi:radiator"
+      },
+      "thermal_power_dhw": {
+        "default": "mdi:water-boiler"
+      },
+      "electrical_power": {
+        "default": "mdi:flash"
+      },
+      "electrical_power_heating": {
+        "default": "mdi:flash"
+      },
+      "electrical_power_dhw": {
+        "default": "mdi:flash"
+      },
+      "cop": {
+        "default": "mdi:gauge"
+      },
+      "cop_heating": {
+        "default": "mdi:gauge"
+      },
+      "cop_dhw": {
+        "default": "mdi:gauge"
+      },
+      "scop": {
+        "default": "mdi:gauge"
+      },
+      "cop_heating_avg": {
+        "default": "mdi:gauge"
+      },
+      "requested_power_heating": {
+        "default": "mdi:flash-outline"
+      },
+      "requested_power_dhw": {
+        "default": "mdi:flash-outline"
+      },
+      "heat_pump_state": {
+        "default": "mdi:numeric"
+      },
+      "state_since": {
+        "default": "mdi:clock-start"
+      },
+      "air_inlet_temp": {
+        "default": "mdi:fan-chevron-down"
+      },
+      "air_outlet_temp": {
+        "default": "mdi:fan-chevron-up"
+      },
+      "spread": {
+        "default": "mdi:arrow-expand-vertical"
+      },
+      "flow_rate": {
+        "default": "mdi:pump"
+      },
+      "required_flow_rate": {
+        "default": "mdi:pump"
+      },
+      "fan_speed": {
+        "default": "mdi:fan"
+      },
+      "charging_pump_power": {
+        "default": "mdi:pump"
+      },
+      "compressor_starts": {
+        "default": "mdi:counter"
+      },
+      "hours_compressor": {
+        "default": "mdi:timer-outline"
+      },
+      "hours_fan": {
+        "default": "mdi:timer-outline"
+      },
+      "hours_charging_pump": {
+        "default": "mdi:timer-outline"
+      },
+      "circuit_pump_hours": {
+        "default": "mdi:timer-outline"
+      },
+      "heater_hours": {
+        "default": "mdi:timer-outline"
+      },
+      "software_version": {
+        "default": "mdi:chip"
+      },
+      "mixer_position": {
+        "default": "mdi:valve"
+      },
+      "heater_power": {
+        "default": "mdi:heating-coil"
+      },
+      "compressor_blocks": {
+        "default": "mdi:lock-alert-outline"
+      },
+      "oil_return_countdown": {
+        "default": "mdi:oil"
+      },
+      "operation": {
+        "default": "mdi:heat-pump",
+        "state": {
+          "defrosting": "mdi:snowflake-melt",
+          "dhw": "mdi:water-boiler",
+          "heating": "mdi:radiator",
+          "cooling": "mdi:snowflake",
+          "standby": "mdi:pause-circle-outline"
+        }
+      },
+      "energy_mode": {
+        "default": "mdi:leaf"
+      }
+    },
+    "binary_sensor": {
+      "heating_active": {
+        "default": "mdi:radiator-off",
+        "state": {
+          "on": "mdi:radiator"
+        }
+      },
+      "dhw_active": {
+        "default": "mdi:water-boiler-off",
+        "state": {
+          "on": "mdi:water-boiler"
+        }
+      },
+      "cooling_active": {
+        "default": "mdi:snowflake-off",
+        "state": {
+          "on": "mdi:snowflake"
+        }
+      },
+      "defrosting": {
+        "default": "mdi:snowflake-melt"
+      },
+      "pv_modulation": {
+        "default": "mdi:solar-power"
+      },
+      "charging_pump": {
+        "default": "mdi:pump-off",
+        "state": {
+          "on": "mdi:pump"
+        }
+      },
+      "summer_mode": {
+        "default": "mdi:snowflake",
+        "state": {
+          "on": "mdi:weather-sunny"
+        }
+      },
+      "one_time_charge": {
+        "default": "mdi:water-boiler-alert"
+      },
+      "compressor_blocked": {
+        "default": "mdi:lock-open-variant-outline",
+        "state": {
+          "on": "mdi:lock"
+        }
+      },
+      "oil_heating": {
+        "default": "mdi:oil"
+      },
+      "compressor_start_preparing": {
+        "default": "mdi:timer-sand"
+      }
+    },
+    "button": {
+      "dhw_one_time_charge_start": {
+        "default": "mdi:water-boiler-alert"
+      }
+    },
+    "number": {
+      "dhw_one_time_setpoint_control": {
+        "default": "mdi:thermometer-water"
+      },
+      "dhw_setpoint_control": {
+        "default": "mdi:thermometer-water"
+      }
+    },
+    "select": {
+      "energy_mode_control": {
+        "default": "mdi:leaf"
+      }
+    }
+  }
+}

@@ -51,6 +51,7 @@ class FakeXCenter:
         self.requests: list[tuple[str, str]] = []
         self.forbidden: list[tuple[str, str]] = []
         self.read_sizes: list[int] = []
+        self.read_keys: list[set[tuple[str, str]]] = []
         self.login_attempts = 0
         self.logouts = 0
         self.fail_all = False
@@ -203,6 +204,9 @@ class FakeXCenter:
         # ReadValues
         wanted = body["DatapointValues"]
         self.read_sizes.append(len(wanted))
+        self.read_keys.append(
+            {(w["DatapointConfigId"].lower(), w["DeviceId"].lower()) for w in wanted}
+        )
         if len(wanted) > 40:
             return self._json(_wrap([]))
         items = []

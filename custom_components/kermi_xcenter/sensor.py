@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
@@ -15,6 +16,7 @@ from homeassistant.const import (
     PERCENTAGE,
     REVOLUTIONS_PER_MINUTE,
     EntityCategory,
+    UnitOfEnergy,
     UnitOfPower,
     UnitOfTemperature,
     UnitOfTime,
@@ -23,8 +25,8 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .coordinator import KermiConfigEntry
-from .datapoints import ENERGY_MODES, Role
+from .coordinator import KermiConfigEntry, KermiCoordinator
+from .datapoints import COMPRESSOR_BLOCK_KEYS, ENERGY_MODES, Role
 from .entity import KermiEntity, KermiEntityDescription, _version, supported
 
 PARALLEL_UPDATES = 0
@@ -35,6 +37,8 @@ class KermiSensorEntityDescription(KermiEntityDescription, SensorEntityDescripti
     """Describes a Kermi sensor."""
 
     raw_attribute: bool = False
+    # Extra state attributes computed from the coordinator.
+    attrs_fn: Callable[[KermiCoordinator], dict[str, Any]] | None = None
 
 
 def _temp(
@@ -109,6 +113,53 @@ def _heater_power(role: Role, dp: str, *, enabled: bool) -> KermiSensorEntityDes
     )
 
 
+# Operating state derived from the x-center's own flags (the numeric state
+# code is undocumented). Order matters: defrosting wins over the others.
+OPERATIONS = ("defrosting", "dhw", "heating", "cooling", "standby")
+
+
+def _operation(data: dict[str, Any]) -> str | None:
+    flags = {
+        "defrosting": data.get("hp_defrosting"),
+        "dhw": data.get("hp_dhw_active"),
+        "heating": data.get("hp_heating_active"),
+        "cooling": data.get("hp_cooling_active"),
+    }
+    if any(value is None for value in flags.values()):
+        return None
+    return next((name for name, active in flags.items() if active), "standby")
+
+
+def _block_count(data: dict[str, Any]) -> int | None:
+    values = [data.get(key) for key in COMPRESSOR_BLOCK_KEYS]
+    known = [value for value in values if value is not None]
+    return sum(1 for value in known if value) if known else None
+
+
+def _block_attrs(coordinator: KermiCoordinator) -> dict[str, Any]:
+    data = coordinator.data or {}
+    active = [
+        coordinator.resolved[key].display_name or key
+        for key in COMPRESSOR_BLOCK_KEYS
+        if data.get(key) and key in coordinator.resolved
+    ]
+    return {"active": active}
+
+
+def _energy(key: str, dp: str) -> KermiSensorEntityDescription:
+    """Lifetime energy counter (classic firmware only, experimental)."""
+    return KermiSensorEntityDescription(
+        key=key,
+        translation_key=key,
+        role=Role.HEAT_PUMP,
+        datapoints=(dp,),
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        suggested_display_precision=1,
+    )
+
+
 def _energy_mode(data: dict[str, Any]) -> str | None:
     raw = data.get("hz_energy_mode")
     return ENERGY_MODES.get(raw) if raw is not None else None
@@ -135,6 +186,48 @@ SENSORS: tuple[KermiSensorEntityDescription, ...] = (
         role=HP,
         datapoints=("hp_state",),
     ),
+    KermiSensorEntityDescription(
+        key="operation",
+        translation_key="operation",
+        role=HP,
+        datapoints=("hp_defrosting", "hp_dhw_active", "hp_heating_active", "hp_cooling_active"),
+        extra_datapoints=("hp_state",),
+        device_class=SensorDeviceClass.ENUM,
+        options=list(OPERATIONS),
+        value_fn=_operation,
+        attrs_fn=lambda c: {"state_code": (c.data or {}).get("hp_state")},
+    ),
+    KermiSensorEntityDescription(
+        key="compressor_blocks",
+        translation_key="compressor_blocks",
+        role=HP,
+        datapoints=COMPRESSOR_BLOCK_KEYS,
+        any_datapoint=True,
+        value_fn=_block_count,
+        attrs_fn=_block_attrs,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    KermiSensorEntityDescription(
+        key="oil_return_countdown",
+        translation_key="oil_return_countdown",
+        role=HP,
+        datapoints=("hp_oil_return_countdown",),
+        device_class=SensorDeviceClass.DURATION,
+        native_unit_of_measurement=UnitOfTime.SECONDS,
+        suggested_unit_of_measurement=UnitOfTime.MINUTES,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    # classic firmware only (experimental): not created on Rubin units
+    _energy("energy_electric_total", "hp_energy_electric_total"),
+    _energy("energy_heat_total", "hp_energy_heat_total"),
+    _energy("energy_electric_heating", "hp_energy_electric_heating"),
+    _energy("energy_electric_dhw", "hp_energy_electric_dhw"),
+    _cop("scop", "hp_scop"),
+    _cop("cop_heating_avg", "hp_cop_heating_avg"),
     KermiSensorEntityDescription(
         key="state_since",
         translation_key="state_since",
@@ -280,9 +373,11 @@ class KermiSensor(KermiEntity, SensorEntity):
 
     @property
     def extra_state_attributes(self) -> dict[str, Any] | None:
-        """Expose the raw code for enum sensors (e.g. unknown energy mode)."""
-        if not self.entity_description.raw_attribute:
-            return None
-        return {
-            "raw_value": (self.coordinator.data or {}).get(self.entity_description.datapoints[0])
-        }
+        """Raw code of enum sensors and other computed attributes."""
+        description = self.entity_description
+        attrs: dict[str, Any] = {}
+        if description.raw_attribute:
+            attrs["raw_value"] = (self.coordinator.data or {}).get(description.datapoints[0])
+        if description.attrs_fn is not None:
+            attrs.update(description.attrs_fn(self.coordinator))
+        return attrs or None

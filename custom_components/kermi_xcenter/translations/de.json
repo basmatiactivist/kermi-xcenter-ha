@@ -234,6 +234,50 @@
       "heater_hours": {
         "name": "Laufzeit Heizstab (ext. WEZ)"
       },
+      "operation": {
+        "name": "Betriebszustand",
+        "state": {
+          "defrosting": "Abtauen",
+          "dhw": "Warmwasser",
+          "heating": "Heizen",
+          "cooling": "Kühlen",
+          "standby": "Bereit"
+        },
+        "state_attributes": {
+          "state_code": {
+            "name": "Statuscode"
+          }
+        }
+      },
+      "compressor_blocks": {
+        "name": "Verdichtersperren aktiv",
+        "state_attributes": {
+          "active": {
+            "name": "Aktive Sperren"
+          }
+        }
+      },
+      "oil_return_countdown": {
+        "name": "Zeit bis Ölrückführung"
+      },
+      "energy_electric_total": {
+        "name": "Strom gesamt"
+      },
+      "energy_heat_total": {
+        "name": "Wärme gesamt"
+      },
+      "energy_electric_heating": {
+        "name": "Strom Heizen gesamt"
+      },
+      "energy_electric_dhw": {
+        "name": "Strom Warmwasser gesamt"
+      },
+      "scop": {
+        "name": "SCOP"
+      },
+      "cop_heating_avg": {
+        "name": "Durchschnittlicher COP Heizen"
+      },
       "dhw_temp": {
         "name": "Warmwasser Isttemperatur"
       },
@@ -245,6 +289,15 @@
       }
     },
     "binary_sensor": {
+      "compressor_blocked": {
+        "name": "Verdichter gesperrt"
+      },
+      "oil_heating": {
+        "name": "Ölheizung"
+      },
+      "compressor_start_preparing": {
+        "name": "Verdichterstart wird vorbereitet"
+      },
       "heating_active": {
         "name": "Heizbetrieb"
       },

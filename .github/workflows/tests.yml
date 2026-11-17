@@ -24,5 +24,7 @@ jobs:
         run: |
           ruff check .
           ruff format --check .
-      - name: Tests (offline, local fake x-center only)
-        run: python -m pytest -q
+      - name: Type check (mypy --strict)
+        run: mypy
+      - name: Tests with coverage (offline, local fake x-center only)
+        run: python -m pytest -q --cov=custom_components/kermi_xcenter --cov-report=term --cov-fail-under=90

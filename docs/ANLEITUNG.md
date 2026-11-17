@@ -44,8 +44,8 @@ Heimnetz. Sie braucht keine Cloud, kein Modbus und keine Zusatzsoftware.
 
 - Home Assistant **2025.2** oder neuer.
 - Kermi x-center mit einer Wärmepumpe mit **Rubin-Firmware** (z. B. *x-change dynamic pro*).
-  Klassische Firmware mit `HP_*`-Datenpunkten wird nicht unterstützt, siehe README,
-  Abschnitt «Unterstützte Anlagen».
+  Für die klassische Firmware mit `HP_*`-Datenpunkten gibt es eine **experimentelle,
+  ungeprüfte** Unterstützung, nur lesend (README, Abschnitt «Unterstützte Anlagen»).
 - Die IP-Adresse des x-center. Am besten reservierst du sie im Router fest, sonst musst du
   die Integration nach jedem Adresswechsel neu konfigurieren (Abschnitt 8).
 - Das Passwort der x-center-Weboberfläche. Prüfe es zuerst im Browser unter
@@ -116,12 +116,51 @@ Die vollständige Liste der Entitäten mit Einheit und Quelle steht im
 
 - Entitäten, die in der Tabelle als «aus» markiert sind, sind standardmässig
   deaktiviert. Aktivieren: *Einstellungen → Geräte & Dienste → Entitäten*, Entität öffnen,
-  ⚙ → *Aktiviert*.
+  ⚙ → *Aktiviert*. Deaktivierte Entitäten fragt die Integration nicht ab. Nach dem
+  Aktivieren lädt Home Assistant die Integration nach etwa 30 Sekunden neu, danach kommen
+  Werte.
+- Unveränderliche Werte wie Modell, Seriennummer und Softwareversion liest die Integration
+  nur beim Start. Nach einem Firmware-Update der Wärmepumpe erscheint die neue Version
+  deshalb erst nach einem Neuladen der Integration oder einem Neustart von Home Assistant.
 - **Nicht verfügbar** bedeutet: Das x-center liefert keinen gültigen Wert, zum Beispiel
   `NaN` beim COP Warmwasser, solange kein Warmwasser bereitet wird, oder -999,9 °C bei
   einem nicht angeschlossenen Fühler. Das ist normal und kein Fehler.
 - Die Entity-IDs sind stabil. Du kannst sie in Home Assistant umbenennen, Dashboards und
   Statistik folgen der neuen ID.
+
+### 5.1 Betriebszustand
+
+Der Sensor **Betriebszustand** (Gerät Kermi Wärmepumpe) zeigt im Klartext, was die
+Wärmepumpe gerade macht: **Abtauen**, **Warmwasser**, **Heizen**, **Kühlen** oder
+**Bereit**. Er wird aus den Betriebssignalen des x-center abgeleitet. Sind mehrere
+gleichzeitig aktiv, gilt diese Reihenfolge: Abtauen vor Warmwasser vor Heizen vor Kühlen.
+
+Den undokumentierten Zahlencode des x-center findest du im Attribut **Statuscode** und im
+Sensor «Status Wärmepumpe (Code)». Beobachtet wurden 0 (kein Betrieb), 2 (Warmwasser),
+4 (Heizen) und 6 (kurz zwischen zwei Betriebsarten).
+
+Beispiel für ein Dashboard-Template:
+
+```jinja
+{{ states('sensor.kermi_warmepumpe_betriebszustand') }}
+```
+
+Hast du die Entity-ID geändert, setzt du hier deine ID ein.
+
+### 5.2 Verdichtersperren
+
+Wenn die Wärmepumpe Wärme anfordert, der Verdichter aber nicht startet, nennt das
+x-center den Grund. Die Integration fasst die 21 heizungsrelevanten Sperrgründe zusammen:
+
+- **Verdichtersperren aktiv** (Diagnose): Anzahl aktiver Gründe. Das Attribut **Aktive
+  Sperren** listet sie im Wortlaut des x-center auf, zum Beispiel «Verdichtersperre durch
+  Mindeststandzeit zwischen zwei Verdichterstarts».
+- **Verdichter gesperrt** (Diagnose): an, sobald mindestens ein Grund aktiv ist.
+- **Ölheizung**, **Verdichterstart wird vorbereitet** und **Zeit bis Ölrückführung** sind
+  standardmässig deaktiviert und bei Bedarf aktivierbar.
+
+Mindeststandzeiten nach einem Verdichterstopp sind normal und schützen den Verdichter.
+Auffällig wird es erst, wenn dieselbe Sperre lange oder sehr häufig aktiv ist.
 
 ## 6. Abfrageintervall
 
@@ -302,6 +341,7 @@ Assistant bietet das Protokoll dann zum Herunterladen an. Es enthält kein Passw
 | Einzelne Werte «nicht verfügbar» | Wert gerade nicht definiert (NaN) oder Fühler nicht angeschlossen | normal |
 | Hinweis zur erneuten Anmeldung | Passwort am x-center geändert | Hinweis anklicken, neues Passwort eingeben |
 | x-center-Weboberfläche sperrt die Anmeldung | zu viele Fehlversuche (auch von anderer Software) | warten, bis die Sperre abläuft. Die Integration selbst versucht es bei falschem Passwort nicht erneut. |
+| Neu aktivierte Entität bleibt kurz «nicht verfügbar» | wird erst nach dem automatischen Neuladen abgefragt | etwa 30 Sekunden warten |
 | Gerät «Kermi Heizen» oder «Kermi Warmwasser» fehlt | Gerätename im x-center weicht ab | Diagnose herunterladen und als Issue melden |
 | Steuer-Entität meldet «Nicht an die Wärmepumpe gesendet» | eine der Schutzregeln (Abschnitt 7.4) greift | Grund in der Meldung lesen, bei «rate limit» 5 Minuten warten |
 

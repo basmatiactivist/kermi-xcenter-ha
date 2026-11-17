@@ -328,3 +328,17 @@ async def test_spoofed_datapoint_refused() -> None:
     with pytest.raises(KermiWriteRefusedError, match="not writable"):
         await client.write_value(spoofed, 48)
     session.request.assert_not_called()
+
+
+async def test_classic_match_is_never_written() -> None:
+    """Datapoints found via classic-firmware names are read-only."""
+    from .test_datapoints import _classic_fake
+
+    devices, configs = _classic_fake()
+    resolved = resolve_datapoints(match_role_devices(devices), configs, all_devices=devices)
+    client, session = _offline_client(writes_enabled=True)
+    with pytest.raises(KermiWriteRefusedError, match="classic"):
+        await client.write_value(resolved["ww_one_time_setpoint"], 50)
+    with pytest.raises(KermiWriteRefusedError, match="classic"):
+        await client.write_value(resolved["hz_energy_mode"], 2)
+    session.request.assert_not_called()

@@ -23,10 +23,12 @@ Die Datenpunkte stammen aus dem Live-Katalog **einer** Anlage:
 
 Einschränkungen:
 
-- **Klassische x-center-Firmware wird nicht unterstützt.** Ältere Anlagen mit `HP_*`-Datenpunkten
-  (z. B. Energiezähler in kWh, SCOP) haben andere Datenpunkte. Dort findet die Integration wenig oder
-  nichts, und die Einrichtung bricht mit «keine bekannten Datenpunkte» ab. Für solche Anlagen eignet
-  sich [kermi-ha-bridge](https://github.com/m-zenker/kermi-ha-bridge).
+- **Klassische x-center-Firmware: experimentell, nur lesen.** Ältere Anlagen verwenden
+  `HP_*`-Datenpunkte. Die Integration sucht sie zusätzlich, nach den Namen aus
+  [kermi-ha-bridge](https://github.com/m-zenker/kermi-ha-bridge). Dazu gehören unter anderem
+  Energiezähler in kWh, SCOP und der durchschnittliche COP. Das ist an keiner echten
+  Anlage geprüft. Datenpunkte, die über diese Namen gefunden werden, lassen sich **nie**
+  schreiben, auch nicht mit eingeschalteter Steuerung.
 - **Gerätenamen:** Die Geräte werden über ihre Namen gefunden («x-change», «Heizen»,
   «Trinkwasser»), wie sie die deutschsprachige x-center-Oberfläche liefert. Bei anderen Namen
   fehlen die betroffenen Geräte. Die Wärmepumpe wird ersatzweise über ihren Gerätetyp erkannt.
@@ -120,6 +122,9 @@ Offene Punkte für einen Test an echter Hardware:
 - Gelesen werden nur Datenpunkte, die beim Start im Live-Katalog des Geräts gefunden wurden
   (Zuordnung über Gerätename + WellKnownName bzw. exakten DisplayName, keine fest
   einprogrammierten GUIDs), in Paketen von höchstens 40 Werten.
+- Pro Abfrage werden nur Datenpunkte von **aktivierten** Entitäten gelesen. Unveränderliche
+  Werte wie Modell, Seriennummer und Softwareversion liest die Integration nur einmal beim
+  Start.
 - Eine Anmeldung pro Sitzung. Läuft die Sitzung ab (HTTP 401), wird **einmal** neu
   angemeldet und die Abfrage wiederholt.
 - Wird das Passwort abgelehnt, stoppt die Abfrage sofort und Home Assistant bittet um ein
@@ -163,6 +168,7 @@ Es entstehen drei Geräte: **Kermi Wärmepumpe**, **Kermi Heizen** und **Kermi W
 `<Seriennummer>_<gerät>_<schlüssel>`, z. B. `…_heat_pump_flow_temp`. Entitäten mit
 «aus» sind standardmässig deaktiviert und können in Home Assistant aktiviert werden.
 
+<!-- ENTITIES:START -->
 | Gerät | Entität | Typ | Einheit | State class | Quelle (Kermi-Gerät → DisplayName / WellKnownName) | Standard |
 |---|---|---|---|---|---|---|
 | Kermi Wärmepumpe | Wärmeleistung | sensor (power) | kW | measurement | x-change dynamic pro (40) → „Aktuelle Leistung“ / `Rubin_CurrentOutputCapacity` | an |
@@ -177,6 +183,15 @@ Es entstehen drei Geräte: **Kermi Wärmepumpe**, **Kermi Heizen** und **Kermi W
 | Kermi Wärmepumpe | Leistungsanforderung Heizen | sensor (power) | kW | measurement | x-change dynamic pro (40) → „Leistungsanforderung Heizen“ / `Rubin_RequestedPowerHeating` | an |
 | Kermi Wärmepumpe | Leistungsanforderung Warmwasser | sensor (power) | kW | measurement | x-change dynamic pro (40) → „Leistungsanforderung TWE“ / `Rubin_RequestedPowerTwe` | an |
 | Kermi Wärmepumpe | Status Wärmepumpe (Code) | sensor |  |  | x-change dynamic pro (40) → „Status Wärmepumpe“ / `Rubin_CombinedHeatpumpState` | an |
+| Kermi Wärmepumpe | Betriebszustand | sensor (enum) | Auswahl |  | x-change dynamic pro (40) → „Abtauen“ / `Rubin_IsDefrostingState` + „TWE“ / `Rubin_IsTweState` + „Heizen“ / `Rubin_IsHeatingState` + „Kühlen“ / `Rubin_IsCoolingState` | an |
+| Kermi Wärmepumpe | Verdichtersperren aktiv | sensor |  | measurement | x-change dynamic pro (40) → 21 Sperr-Datenpunkte (siehe Anleitung) | an |
+| Kermi Wärmepumpe | Zeit bis Ölrückführung | sensor (duration) | min | measurement | x-change dynamic pro (40) → „Countdown bis zur Ölrückführung“ | aus |
+| Kermi Wärmepumpe | Strom gesamt | sensor (energy) | kWh | total_increasing | x-change dynamic pro (40) → `HP_StrommengeGesamt` | an, nur klassische Firmware |
+| Kermi Wärmepumpe | Wärme gesamt | sensor (energy) | kWh | total_increasing | x-change dynamic pro (40) → `HP_WaermemengeGesamt` | an, nur klassische Firmware |
+| Kermi Wärmepumpe | Strom Heizen gesamt | sensor (energy) | kWh | total_increasing | x-change dynamic pro (40) → `HP_HeatingWaterElectricalEnergy` | an, nur klassische Firmware |
+| Kermi Wärmepumpe | Strom Warmwasser gesamt | sensor (energy) | kWh | total_increasing | x-change dynamic pro (40) → `HP_HotWaterElectricalEnergy` | an, nur klassische Firmware |
+| Kermi Wärmepumpe | SCOP | sensor |  | measurement | x-change dynamic pro (40) → `HP_SCOPGesamt` | an, nur klassische Firmware |
+| Kermi Wärmepumpe | Durchschnittlicher COP Heizen | sensor |  | measurement | x-change dynamic pro (40) → `HP_HeatingWaterAverageCOP` | an, nur klassische Firmware |
 | Kermi Wärmepumpe | Status seit | sensor (timestamp) |  |  | x-change dynamic pro (40) → „Status seit“ / `Rubin_StateSinceUtc` | an |
 | Kermi Wärmepumpe | Vorlauftemperatur (B16) | sensor (temperature) | °C | measurement | x-change dynamic pro (40) → „B16 - Vorlauftemperatur WP“ / `Rubin_Link_B16_Vorlauftemperatur_WP` | an |
 | Kermi Wärmepumpe | Rücklauftemperatur (B17) | sensor (temperature) | °C | measurement | x-change dynamic pro (40) → „B17 - Rücklauftemperatur WP“ / `Rubin_Link_B17_Ruecklauftemperatur_WP` | an |
@@ -201,9 +216,13 @@ Es entstehen drei Geräte: **Kermi Wärmepumpe**, **Kermi Heizen** und **Kermi W
 | Kermi Heizen | Pufferspeicher Isttemperatur | sensor (temperature) | °C | measurement | Heizen (50) → „Isttemperatur Heizspeicher“ / `BufferSystem_HeatingTemperatureActual` | an |
 | Kermi Heizen | Pufferspeicher Solltemperatur | sensor (temperature) | °C | measurement | Heizen (50) → „Solltemperatur Heizspeicher“ / `BufferSystem_HeatingSetpoint` | an |
 | Kermi Heizen | Mischeröffnung | sensor | % | measurement | Heizen (50) → „Mischeröffnung“ / `HeatingCircuit_MixerPosition` | an |
-| Kermi Heizen | Energiemodus | sensor (enum) | Enum |  | Heizen (50) → „Energiemodus“ / `HeatingCircuit_EnergyMode` | an |
+| Kermi Heizen | Energiemodus | sensor (enum) | Auswahl |  | Heizen (50) → „Energiemodus“ / `HeatingCircuit_EnergyMode` | an |
 | Kermi Heizen | Betriebsstunden Heizkreispumpe | sensor (duration) | h | total_increasing | Heizen (50) → „Heizkreispumpe Laufzeit“ / `HeatingCircuit_OperatingHoursPump` | an |
+| Kermi Heizen | Heizstab Leistung (ext. WEZ) | sensor (power) | kW | measurement | Heizen (50) → „aktuelle elektr. Leistung“ / `BufferSystem_HeaterRequestedElectricalPower` | aus |
+| Kermi Heizen | Laufzeit Heizstab (ext. WEZ) | sensor (duration) | h | total_increasing | Heizen (50) → „Ext. WEZ Laufzeit“ | an |
 | Kermi Warmwasser | Warmwasser Isttemperatur | sensor (temperature) | °C | measurement | Trinkwassererwärmung (51) → „Isttemperatur TWE“ / `BufferSystem_TweTemperatureActual` | an |
+| Kermi Warmwasser | Heizstab Leistung (ext. WEZ) | sensor (power) | kW | measurement | Trinkwassererwärmung (51) → „aktuelle elektr. Leistung“ / `BufferSystem_HeaterRequestedElectricalPower` | an |
+| Kermi Warmwasser | Laufzeit Heizstab (ext. WEZ) | sensor (duration) | h | total_increasing | Trinkwassererwärmung (51) → „Ext. WEZ Laufzeit“ | an |
 | Kermi Warmwasser | Warmwasser Solltemperatur | sensor (temperature) | °C | measurement | Trinkwassererwärmung (51) → „Solltemperatur TWE“ / `BufferSystem_TweSetpoint` | an |
 | Kermi Warmwasser | Sollwert Einmalladung | sensor (temperature) | °C | measurement | Trinkwassererwärmung (51) → „Sollwert Einmalladung TWE“ / `BufferSystem_OneTimeTweSetpoint` | aus |
 | Kermi Wärmepumpe | Heizbetrieb | binary_sensor (running) |  |  | x-change dynamic pro (40) → „Heizen“ / `Rubin_IsHeatingState` | an |
@@ -214,8 +233,12 @@ Es entstehen drei Geräte: **Kermi Wärmepumpe**, **Kermi Heizen** und **Kermi W
 | Kermi Wärmepumpe | Globaler Alarm | binary_sensor (problem) |  |  | x-change dynamic pro (40) → „Globaler Alarm“ | an |
 | Kermi Wärmepumpe | Globale Warnung | binary_sensor (problem) |  |  | x-change dynamic pro (40) → „Globale Warnung“ | an |
 | Kermi Wärmepumpe | Speicherladepumpe | binary_sensor (running) |  |  | x-change dynamic pro (40) → „Betrieb Speicherladepumpe“ / `Rubin_StorageChargingPumpState` | aus |
+| Kermi Wärmepumpe | Verdichter gesperrt | binary_sensor |  |  | x-change dynamic pro (40) → 21 Sperr-Datenpunkte (siehe Anleitung) | an |
+| Kermi Wärmepumpe | Ölheizung | binary_sensor (running) |  |  | x-change dynamic pro (40) → „Ölheizung“ / `Rubin_Oelheizung` | aus |
+| Kermi Wärmepumpe | Verdichterstart wird vorbereitet | binary_sensor |  |  | x-change dynamic pro (40) → „Vorbereitung Verdichterstart“ | aus |
 | Kermi Heizen | Sommerbetrieb | binary_sensor |  |  | Heizen (50) → „Sommerbetrieb“ / `HeatingCircuit_SummerMode` | an |
 | Kermi Warmwasser | Einmalladung aktiv | binary_sensor (running) |  |  | Trinkwassererwärmung (51) → „Einmalladung TWE“ / `BufferSystem_OneTimeTwe` | an |
+<!-- ENTITIES:END -->
 
 ### Hinweise zu einzelnen Werten
 
@@ -225,9 +248,25 @@ Es entstehen drei Geräte: **Kermi Wärmepumpe**, **Kermi Heizen** und **Kermi W
   (hier: Eco −2 K, Normal 0 K, Komfort +2 K, Benutzerdefiniert −5 K), nicht die Zahlen
   selbst; der aktuelle Wert 2 passt zu «Normal». Der Rohwert steht im Attribut
   `raw_value`; unbekannte Werte werden als *unbekannt* angezeigt.
+- **Betriebszustand** (Abtauen, Warmwasser, Heizen, Kühlen, Bereit): abgeleitet aus den
+  Betriebssignalen des x-center («Abtauen», «TWE», «Heizen», «Kühlen»), in dieser
+  Reihenfolge. Der Rohcode steht im Attribut `state_code`.
 - **Status Wärmepumpe (Code)** (`Rubin_CombinedHeatpumpState`, Werteliste
-  `Rubin_StateHP`): Die Bedeutung der Codes ist nicht dokumentiert und wird deshalb als
-  Zahl angezeigt (beobachtet: 4 während Heizbetrieb).
+  `Rubin_StateHP`): Die Codes sind nicht dokumentiert. An der Referenzanlage wurden über
+  mehrere Tage beobachtet:
+
+  | Code | gleichzeitig beobachtet |
+  |---|---|
+  | 0 | kein Betrieb, Verdichter aus |
+  | 2 | Warmwasserbereitung |
+  | 4 | Heizbetrieb |
+  | 6 | nur kurz zwischen zwei Betriebsarten, Bedeutung offen |
+
+- **Verdichtersperren aktiv** zählt, wie viele der 21 heizungsrelevanten Sperrgründe das
+  x-center gerade meldet. Die aktiven Gründe stehen im Attribut `active`, zum Beispiel
+  «Verdichtersperre durch Mindeststandzeit zwischen zwei Verdichterstarts».
+  «Verdichter gesperrt» ist an, sobald mindestens ein Grund aktiv ist. Die Sperrgründe
+  für den Kühlbetrieb sind bewusst nicht dabei, weil sie im Winter dauerhaft aktiv sind.
 - **Spreizung** ist eine Temperaturdifferenz (Kelvin, `temperature_delta`).
 
 ## Entwicklung
@@ -235,14 +274,24 @@ Es entstehen drei Geräte: **Kermi Wärmepumpe**, **Kermi Heizen** und **Kermi W
 ```bash
 uv venv -p 3.14 .venv
 uv pip install --python .venv/bin/python -r requirements-test.txt
-.venv/bin/pytest
+.venv/bin/pytest --cov=custom_components/kermi_xcenter --cov-fail-under=90
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
+.venv/bin/mypy
 ```
 
 Die Tests laufen vollständig offline gegen einen lokalen Nachbau der API
 (`tests/fake_xcenter.py`, nur 127.0.0.1), gespeist aus dem anonymisierten Live-Katalog
-(`tests/fixtures_catalog.json`). Übersetzungen werden mit `scripts/gen_translations.py`
-erzeugt.
+(`tests/fixtures_catalog.json`). Die CI prüft zusätzlich hassfest, die HACS-Regeln,
+`mypy --strict` und eine Testabdeckung von mindestens 90 %. Bei einem Release prüft sie,
+dass der Tag zur Version in `manifest.json` passt.
+
+Erzeugte Dateien, aus dem Repo-Stamm ausführen:
+
+- `python scripts/gen_translations.py` erzeugt `strings.json` und `translations/*.json`.
+- `PYTHONPATH=. python scripts/gen_entity_table.py` erzeugt die Entitäten-Tabelle hier im
+  README.
+- `python scripts/make_brand.py` erzeugt das Logo in `brand/`. Es ist ein eigenes Symbol,
+  nicht das Kermi-Logo.
 
 ## Haftungsausschluss
 

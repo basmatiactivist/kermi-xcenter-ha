@@ -13,7 +13,7 @@ from __future__ import annotations
 import logging
 import math
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any
@@ -65,6 +65,11 @@ class Datapoint:
     display_name: str | None = None
     # Treat -999.9 as "sensor not connected".
     temperature: bool = False
+    # WellKnownNames of the classic (non-Rubin) firmware, tried after ``wkn``.
+    # Experimental and read-only: never used for writes.
+    alt_wkns: tuple[str, ...] = ()
+    # Value never changes at runtime (model, serial, version): read once at setup.
+    static: bool = False
 
 
 @dataclass(frozen=True)
@@ -79,6 +84,13 @@ class ResolvedDatapoint:
     # Bounds from the live catalogue (None if the catalogue has none).
     min_value: float | None = None
     max_value: float | None = None
+    # The WellKnownName that matched (None when matched by DisplayName).
+    matched_wkn: str | None = None
+
+    @property
+    def is_primary_match(self) -> bool:
+        """True unless the datapoint was found via a classic-firmware alternative."""
+        return self.matched_wkn is None or self.matched_wkn == self.spec.wkn
 
 
 def _dp(
@@ -93,10 +105,65 @@ def _dp(
     return Datapoint(key=key, role=role, kind=kind, wkn=wkn, display_name=name, temperature=temp)
 
 
+# (key, WellKnownName, exact DisplayName) of conditions that keep the
+# compressor from starting.
+COMPRESSOR_BLOCKS: tuple[tuple[str, str | None, str], ...] = (
+    (
+        "hp_block_min_pause_starts",
+        None,
+        "Verdichtersperre durch Mindeststandzeit zwischen zwei Verdichterstarts",
+    ),
+    (
+        "hp_block_min_pause_stop",
+        None,
+        "Verdichtersperre durch Mindeststandzeit zwischen Verdichterstopp und -start",
+    ),
+    ("hp_block_oil_temp", None, "Sperre Verdichterstart durch niedrige Öltemperatur"),
+    (
+        "hp_block_defrost_temp",
+        "Rubin_CompressorBlockLowTemperaturSecondaryDefrosting",
+        "Verdichtersperre durch min. Ladekreistemperaturen Abtauung",
+    ),
+    ("hp_block_after_defrost", None, "Blockierung nach Abtauung"),
+    ("hp_block_controller", None, "Verdichterbetrieb wird durch Einstellung des Reglers blockiert"),
+    ("hp_block_max_return", None, "Blockierung WP durch max. Rücklauftemperatur"),
+    ("hp_block_min_return", None, "Blockierung WP durch min. Rücklauftemperatur"),
+    (
+        "hp_block_source_high",
+        "Rubin_CompressorBlockHighTemperaturePrimary",
+        "hohe EQ Temperatur (Heizen)",
+    ),
+    (
+        "hp_block_source_low",
+        "Rubin_CompressorBlockLowTemperaturePrimary",
+        "geringe EQ Temperatur (Heizen)",
+    ),
+    (
+        "hp_block_return_high",
+        "Rubin_CompressorBlockHighTemperatureSecondary",
+        "hohe Rücklauftemperatur WP (Heizen)",
+    ),
+    (
+        "hp_block_return_low",
+        "Rubin_CompressorBlockLowTemperatureSecondary",
+        "geringe Rücklauftemperatur WP (Heizen)",
+    ),
+    ("hp_block_pressure_diff_high", None, "hohe Druckdifferenz (Heizen)"),
+    ("hp_block_high_pressure_high", None, "hoher Hochdruck (Heizen)"),
+    ("hp_block_motor_overload", None, "Überlast Verdichter Motor (Heizen)"),
+    ("hp_block_low_pressure_high", None, "hoher Niederdruck (Heizen)"),
+    ("hp_block_ratio_low", None, "geringes Verdichtungsverhältnis (Heizen)"),
+    ("hp_block_pressure_delta_low", None, "geringes Druckdelta (Heizen)"),
+    ("hp_block_high_pressure_low", None, "geringer Hochdruck (Heizen)"),
+    ("hp_block_low_pressure_low", None, "geringer Niederdruck (Heizen)"),
+    ("hp_block_ratio_high", None, "hohes Verdichtungsverhältnis (Heizen)"),
+)
+COMPRESSOR_BLOCK_KEYS: tuple[str, ...] = tuple(key for key, _, _ in COMPRESSOR_BLOCKS)
+
 HP, HZ, WW = Role.HEAT_PUMP, Role.HEATING, Role.DHW
 F, N, B, S, T = Kind.FLOAT, Kind.INT, Kind.BOOL, Kind.STR, Kind.TIMESTAMP
 
-DATAPOINTS: tuple[Datapoint, ...] = (
+_BASE_DATAPOINTS: tuple[Datapoint, ...] = (
     # --- heat pump: power / efficiency
     _dp("hp_thermal_power", HP, F, "Rubin_CurrentOutputCapacity", "Aktuelle Leistung"),
     _dp(
@@ -301,6 +368,65 @@ DATAPOINTS: tuple[Datapoint, ...] = (
     _dp("ww_sw_minor", WW, N, "PowerModule_SWVersion_Minor", "Software-Version Minor"),
     _dp("ww_sw_patch", WW, N, "PowerModule_SWVersion_Patch", "Software-Version Patch"),
     _dp("ww_model", WW, S, "DeviceType", "Gerätetyp"),
+    # --- heat pump: compressor start blocks (heating relevant only; the cooling
+    # blocks are permanently active in winter and would only be noise)
+    *(_dp(key, HP, B, wkn, name) for key, wkn, name in COMPRESSOR_BLOCKS),
+    _dp("hp_oil_heating", HP, B, "Rubin_Oelheizung", "Ölheizung"),
+    _dp("hp_compressor_start_preparing", HP, B, None, "Vorbereitung Verdichterstart"),
+    _dp("hp_oil_return_countdown", HP, F, None, "Countdown bis zur Ölrückführung"),
+    # --- classic firmware only (experimental, read-only)
+    _dp("hp_energy_electric_total", HP, F, "HP_StrommengeGesamt"),
+    _dp("hp_energy_heat_total", HP, F, "HP_WaermemengeGesamt"),
+    _dp("hp_energy_electric_heating", HP, F, "HP_HeatingWaterElectricalEnergy"),
+    _dp("hp_energy_electric_dhw", HP, F, "HP_HotWaterElectricalEnergy"),
+    _dp("hp_scop", HP, F, "HP_SCOPGesamt"),
+    _dp("hp_cop_heating_avg", HP, F, "HP_HeatingWaterAverageCOP"),
+)
+
+# WellKnownNames of the classic x-center firmware (HP_*), taken from
+# kermi-ha-bridge. Untested here: there was no classic unit to test against.
+CLASSIC_WKNS: dict[str, tuple[str, ...]] = {
+    "hp_state": ("HP_HeatpumpState",),
+    "hp_thermal_power": ("HP_HeatOutput",),
+    "hp_electrical_power": ("HP_AktuelleMotorleistungKW",),
+    "hp_cop": ("HP_TotalCOP",),
+    "hp_cop_heating": ("HP_HeatingWaterCOP",),
+    "hp_cop_dhw": ("HP_HotWaterCOP",),
+    "hp_flow_temp": ("HP_AuslasstempLadekreis",),
+    "hp_return_temp": ("HP_EinlasstempLadekreis",),
+    "hz_outdoor_temp": ("VolWo_Temperature_Sensor_S1_Value", "Aussentemperatur"),
+    "hz_buffer_temp": ("HP_IstTempHW",),
+    "hz_buffer_setpoint": ("HP_HeizwasserSollwertPanel",),
+    "hz_circuit_temp": ("HP_MK1IstTemp",),
+    "hz_circuit_setpoint": ("HP_MK1SollTempPanel",),
+    "hz_energy_mode": ("HP_EnergyModeHk1",),
+    "ww_temp": ("HP_TWETempIst",),
+    "ww_setpoint": ("HP_TWESoll",),
+    "ww_one_time_setpoint": ("HP_TWESollEinmal",),
+    "ww_one_time_charge": ("HP_EinmalTWEPanel",),
+}
+
+STATIC_KEYS: frozenset[str] = frozenset(
+    {
+        "hp_sw_major",
+        "hp_sw_minor",
+        "hp_sw_patch",
+        "hp_model",
+        "hp_serial",
+        "hz_sw_major",
+        "hz_sw_minor",
+        "hz_sw_patch",
+        "hz_model",
+        "ww_sw_major",
+        "ww_sw_minor",
+        "ww_sw_patch",
+        "ww_model",
+    }
+)
+
+DATAPOINTS: tuple[Datapoint, ...] = tuple(
+    replace(dp, alt_wkns=CLASSIC_WKNS.get(dp.key, ()), static=dp.key in STATIC_KEYS)
+    for dp in _BASE_DATAPOINTS
 )
 
 DATAPOINTS_BY_KEY: dict[str, Datapoint] = {dp.key: dp for dp in DATAPOINTS}
@@ -410,12 +536,17 @@ def match_role_devices(devices: list[dict[str, Any]]) -> dict[Role, dict[str, An
     return found
 
 
-def _find_config(configs: list[dict[str, Any]], spec: Datapoint) -> dict[str, Any] | None:
-    if spec.wkn:
+def _find_config(
+    configs: list[dict[str, Any]], spec: Datapoint, *, by_name: bool = True
+) -> tuple[dict[str, Any], str | None] | None:
+    """Find a datapoint: primary WKN, then classic WKNs, then exact DisplayName."""
+    for wkn in (spec.wkn, *spec.alt_wkns):
+        if not wkn:
+            continue
         for cfg in configs:
-            if cfg.get("WellKnownName") == spec.wkn and cfg.get("DatapointConfigId"):
-                return cfg
-    if spec.display_name:
+            if cfg.get("WellKnownName") == wkn and cfg.get("DatapointConfigId"):
+                return cfg, wkn
+    if by_name and spec.display_name:
         matches = [
             cfg
             for cfg in configs
@@ -423,7 +554,7 @@ def _find_config(configs: list[dict[str, Any]], spec: Datapoint) -> dict[str, An
         ]
         visible = [cfg for cfg in matches if not cfg.get("Hidden")]
         if visible or matches:
-            return (visible or matches)[0]
+            return (visible or matches)[0], None
     return None
 
 
@@ -439,27 +570,43 @@ def resolve_datapoints(
     role_devices: dict[Role, dict[str, Any]],
     configs_by_type: dict[int, list[dict[str, Any]]],
     specs: tuple[Datapoint, ...] = DATAPOINTS,
+    all_devices: list[dict[str, Any]] | None = None,
 ) -> dict[str, ResolvedDatapoint]:
-    """Resolve datapoint specs against the live catalogue."""
+    """Resolve datapoint specs against the live catalogue.
+
+    If the device of a role was not found (classic firmware has other device
+    names), datapoints with WellKnownNames are searched on all other devices,
+    by WellKnownName only: DisplayNames are ambiguous across devices.
+    """
+    others = [
+        dev
+        for dev in (all_devices or [])
+        if dev.get("DeviceType") and dev.get("DeviceId") and dev not in role_devices.values()
+    ]
     resolved: dict[str, ResolvedDatapoint] = {}
     for spec in specs:
         dev = role_devices.get(spec.role)
-        if dev is None:
-            continue
-        configs = configs_by_type.get(dev.get("DeviceType"), [])
-        cfg = _find_config(configs, spec)
-        if cfg is None:
+        candidates = [(dev, True)] if dev is not None else [(d, False) for d in others]
+        for candidate, by_name in candidates:
+            dtype = candidate.get("DeviceType")
+            configs = configs_by_type.get(dtype, []) if isinstance(dtype, int) else []
+            found = _find_config(configs, spec, by_name=by_name)
+            if found is None:
+                continue
+            cfg, matched = found
+            resolved[spec.key] = ResolvedDatapoint(
+                spec=spec,
+                config_id=str(cfg["DatapointConfigId"]).lower(),
+                device_id=str(candidate["DeviceId"]).lower(),
+                display_name=cfg.get("DisplayName"),
+                unit=cfg.get("Unit"),
+                min_value=_bound(cfg, ("MinValue", "Minimum", "Min")),
+                max_value=_bound(cfg, ("MaxValue", "Maximum", "Max")),
+                matched_wkn=matched,
+            )
+            break
+        else:
             _LOGGER.debug("Datapoint %s not found in catalogue", spec.key)
-            continue
-        resolved[spec.key] = ResolvedDatapoint(
-            spec=spec,
-            config_id=str(cfg["DatapointConfigId"]).lower(),
-            device_id=str(dev["DeviceId"]).lower(),
-            display_name=cfg.get("DisplayName"),
-            unit=cfg.get("Unit"),
-            min_value=_bound(cfg, ("MinValue", "Minimum", "Min")),
-            max_value=_bound(cfg, ("MaxValue", "Maximum", "Max")),
-        )
     return resolved
 
 

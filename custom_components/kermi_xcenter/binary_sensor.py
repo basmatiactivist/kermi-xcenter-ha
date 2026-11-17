@@ -4,16 +4,17 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from homeassistant.components.binary_sensor import (
+from homeassistant.components.binary_sensor import (  # type: ignore[attr-defined]
     BinarySensorDeviceClass,
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
+from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .coordinator import KermiConfigEntry
-from .datapoints import Role
+from .datapoints import COMPRESSOR_BLOCK_KEYS, Role
 from .entity import KermiEntity, KermiEntityDescription, supported
 
 PARALLEL_UPDATES = 0
@@ -31,6 +32,7 @@ def _bin(
     device_class: BinarySensorDeviceClass | None = None,
     *,
     enabled: bool = True,
+    diag: bool = False,
 ) -> KermiBinarySensorEntityDescription:
     return KermiBinarySensorEntityDescription(
         key=key,
@@ -39,6 +41,7 @@ def _bin(
         datapoints=(dp,),
         device_class=device_class,
         entity_registry_enabled_default=enabled,
+        entity_category=EntityCategory.DIAGNOSTIC if diag else None,
     )
 
 
@@ -54,6 +57,23 @@ BINARY_SENSORS: tuple[KermiBinarySensorEntityDescription, ...] = (
     _bin("global_alarm", Role.HEAT_PUMP, "hp_global_alarm", PROBLEM),
     _bin("global_warning", Role.HEAT_PUMP, "hp_global_warning", PROBLEM),
     _bin("charging_pump", Role.HEAT_PUMP, "hp_charging_pump_running", RUNNING, enabled=False),
+    KermiBinarySensorEntityDescription(
+        key="compressor_blocked",
+        translation_key="compressor_blocked",
+        role=Role.HEAT_PUMP,
+        datapoints=COMPRESSOR_BLOCK_KEYS,
+        any_datapoint=True,
+        value_fn=lambda data: any(data.get(key) for key in COMPRESSOR_BLOCK_KEYS),
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    _bin("oil_heating", Role.HEAT_PUMP, "hp_oil_heating", RUNNING, enabled=False, diag=True),
+    _bin(
+        "compressor_start_preparing",
+        Role.HEAT_PUMP,
+        "hp_compressor_start_preparing",
+        enabled=False,
+        diag=True,
+    ),
     _bin("summer_mode", Role.HEATING, "hz_summer_mode"),
     _bin("one_time_charge", Role.DHW, "ww_one_time_charge", RUNNING),
 )
@@ -81,4 +101,5 @@ class KermiBinarySensor(KermiEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool | None:
         """Return the state."""
-        return self._value
+        value = self._value
+        return bool(value) if value is not None else None

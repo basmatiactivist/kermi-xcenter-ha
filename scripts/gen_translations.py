@@ -45,11 +45,26 @@ S = {  # key: (en, de)
     "circuit_pump_hours": ("Run hours heating circuit pump", "Betriebsstunden Heizkreispumpe"),
     "heater_power": ("Heater power (external heat generator)", "Heizstab Leistung (ext. WEZ)"),
     "heater_hours": ("Run hours heater (external heat generator)", "Laufzeit Heizstab (ext. WEZ)"),
+    "operation": ("Operating state", "Betriebszustand"),
+    "compressor_blocks": ("Active compressor blocks", "Verdichtersperren aktiv"),
+    "oil_return_countdown": ("Time until oil return", "Zeit bis Ölrückführung"),
+    "energy_electric_total": ("Electrical energy total", "Strom gesamt"),
+    "energy_heat_total": ("Heat energy total", "Wärme gesamt"),
+    "energy_electric_heating": ("Electrical energy heating", "Strom Heizen gesamt"),
+    "energy_electric_dhw": ("Electrical energy hot water", "Strom Warmwasser gesamt"),
+    "scop": ("SCOP", "SCOP"),
+    "cop_heating_avg": ("Average COP heating", "Durchschnittlicher COP Heizen"),
     "dhw_temp": ("Hot water temperature", "Warmwasser Isttemperatur"),
     "dhw_setpoint": ("Hot water setpoint", "Warmwasser Solltemperatur"),
     "dhw_one_time_setpoint": ("One-time charge setpoint", "Sollwert Einmalladung"),
 }
 B = {
+    "compressor_blocked": ("Compressor blocked", "Verdichter gesperrt"),
+    "oil_heating": ("Oil heating", "Ölheizung"),
+    "compressor_start_preparing": (
+        "Compressor start preparing",
+        "Verdichterstart wird vorbereitet",
+    ),
     "heating_active": ("Heating", "Heizbetrieb"),
     "dhw_active": ("Hot water charging", "Warmwasserbetrieb"),
     "cooling_active": ("Cooling", "Kühlbetrieb"),
@@ -96,6 +111,13 @@ NUMBER = {
         "Sollwert Einmalladung (Steuerung)",
     ),
     "dhw_setpoint_control": ("Hot water setpoint (control)", "Warmwasser-Sollwert (Steuerung)"),
+}
+OPERATION = {
+    "defrosting": ("Defrosting", "Abtauen"),
+    "dhw": ("Hot water", "Warmwasser"),
+    "heating": ("Heating", "Heizen"),
+    "cooling": ("Cooling", "Kühlen"),
+    "standby": ("Standby", "Bereit"),
 }
 MODES = {
     "off": ("Off", "Aus"),
@@ -173,6 +195,13 @@ def build(lang):
     sensor["energy_mode"]["state"] = {k: v[i] for k, v in MODES.items()}
     sensor["energy_mode"]["state_attributes"] = {
         "raw_value": {"name": "Raw value" if i == 0 else "Rohwert"}
+    }
+    sensor["operation"]["state"] = {k: v[i] for k, v in OPERATION.items()}
+    sensor["operation"]["state_attributes"] = {
+        "state_code": {"name": "State code" if i == 0 else "Statuscode"}
+    }
+    sensor["compressor_blocks"]["state_attributes"] = {
+        "active": {"name": "Active blocks" if i == 0 else "Aktive Sperren"}
     }
     return {
         "config": {
