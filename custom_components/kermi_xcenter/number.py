@@ -12,13 +12,12 @@ from homeassistant.components.number import (
 )
 from homeassistant.const import UnitOfTemperature
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import KermiError
 from .coordinator import KermiConfigEntry
 from .datapoints import WRITABLE, Role
-from .entity import KermiEntity, KermiEntityDescription, supported
+from .entity import KermiEntity, KermiEntityDescription, raise_write_error, supported
 
 PARALLEL_UPDATES = 1
 
@@ -79,4 +78,4 @@ class KermiNumber(KermiEntity, NumberEntity):
         try:
             await self.coordinator.async_write(self.entity_description.datapoints[0], value)
         except KermiError as err:
-            raise HomeAssistantError(str(err)) from err
+            raise_write_error(err)

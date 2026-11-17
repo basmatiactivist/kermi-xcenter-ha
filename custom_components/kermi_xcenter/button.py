@@ -6,13 +6,12 @@ from dataclasses import dataclass
 
 from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import KermiError
 from .coordinator import KermiConfigEntry
 from .datapoints import Role
-from .entity import KermiEntity, KermiEntityDescription, supported
+from .entity import KermiEntity, KermiEntityDescription, raise_write_error, supported
 
 PARALLEL_UPDATES = 1
 
@@ -60,4 +59,4 @@ class KermiButton(KermiEntity, ButtonEntity):
                 self.entity_description.datapoints[0], self.entity_description.press_value
             )
         except KermiError as err:
-            raise HomeAssistantError(str(err)) from err
+            raise_write_error(err)

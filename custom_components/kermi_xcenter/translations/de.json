@@ -39,6 +39,7 @@
     "error": {
       "cannot_connect": "Keine Verbindung zum x-center möglich.",
       "invalid_auth": "Das x-center hat das Passwort abgelehnt.",
+      "invalid_host": "Bitte nur IP-Adresse oder Hostname angeben, optional mit :Port.",
       "unknown": "Unerwarteter Fehler."
     },
     "abort": {
@@ -71,6 +72,32 @@
     },
     "error": {
       "confirm_required": "Bitte die Bestätigung ankreuzen oder zurückgehen und die Steuerung ausgeschaltet lassen."
+    }
+  },
+  "exceptions": {
+    "invalid_auth": {
+      "message": "Das x-center hat das Passwort abgelehnt."
+    },
+    "catalogue_failed": {
+      "message": "Der Datenpunkt-Katalog konnte nicht geladen werden: {error}"
+    },
+    "no_datapoints": {
+      "message": "Im Katalog des x-center wurden keine bekannten Datenpunkte gefunden."
+    },
+    "update_failed": {
+      "message": "Lesen vom x-center fehlgeschlagen: {error}"
+    },
+    "no_values": {
+      "message": "Das x-center hat keine Werte geliefert."
+    },
+    "write_refused": {
+      "message": "Nicht an die Wärmepumpe gesendet: {reason}"
+    },
+    "write_failed": {
+      "message": "Die Wärmepumpe hat die Änderung nicht angenommen: {reason}"
+    },
+    "unknown_option": {
+      "message": "Unbekannte Option: {option}"
     }
   },
   "entity": {

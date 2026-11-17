@@ -72,6 +72,21 @@ Offene Punkte für einen Test an echter Hardware:
 - Das Nutzlastformat (`$type`, `DatapointConfigId`, `DeviceId`, `Value`) stammt aus
   kermi-ha-bridge.
 
+## Sicherheit
+
+- **Netzwerk:** Das x-center spricht nur unverschlüsseltes HTTP. Passwort und Session-Cookie
+  gehen im Klartext durchs lokale Netz. Betreibe es nur in einem vertrauenswürdigen Netz,
+  am besten in einem eigenen VLAN für die Haustechnik, und gib es nie ins Internet frei.
+- **Verbindung:** Die Integration folgt keinen HTTP-Weiterleitungen. Als Host akzeptiert
+  sie nur einen Hostnamen oder eine IP-Adresse, optional mit Port, keine URL mit
+  Zugangsdaten. Antworten über 2 MB werden verworfen, jede Anfrage bricht nach 15 s ab.
+- **Diagnose:** In den Diagnosedaten sind Passwort, Host, Seriennummern und Geräte-IDs
+  geschwärzt. Von der Geräteliste werden nur Name, Typ und ID übernommen.
+- **Abhängigkeiten:** Es gibt keine Fremdabhängigkeiten ausser denen von Home Assistant.
+  Die CI läuft mit fest gepinnten Actions und nur Leserechten, Dependabot hält die Pins
+  aktuell.
+- **Schwachstellen melden:** bitte vertraulich, siehe [SECURITY.md](SECURITY.md).
+
 ## Schonender Betrieb
 
 - Abfrage standardmässig alle **30 s** (Option, mindestens 15 s).

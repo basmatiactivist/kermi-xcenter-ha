@@ -6,13 +6,14 @@ from dataclasses import dataclass
 
 from homeassistant.components.select import SelectEntity, SelectEntityDescription
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import HomeAssistantError
+from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import KermiError
+from .const import DOMAIN
 from .coordinator import KermiConfigEntry
 from .datapoints import ENERGY_MODES, WRITABLE, Role
-from .entity import KermiEntity, KermiEntityDescription, supported
+from .entity import KermiEntity, KermiEntityDescription, raise_write_error, supported
 
 PARALLEL_UPDATES = 1
 
@@ -74,8 +75,12 @@ class KermiSelect(KermiEntity, SelectEntity):
         """Write the option through the guarded write path."""
         code = self.entity_description.codes.get(option)
         if code is None:
-            raise HomeAssistantError(f"Unknown option {option}")
+            raise ServiceValidationError(
+                translation_domain=DOMAIN,
+                translation_key="unknown_option",
+                translation_placeholders={"option": option},
+            )
         try:
             await self.coordinator.async_write(self.entity_description.datapoints[0], code)
         except KermiError as err:
-            raise HomeAssistantError(str(err)) from err
+            raise_write_error(err)

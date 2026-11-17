@@ -5,13 +5,17 @@ from __future__ import annotations
 from typing import Any
 
 from homeassistant.components.diagnostics import async_redact_data
-from homeassistant.const import CONF_PASSWORD
+from homeassistant.const import CONF_HOST, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
 
 from .coordinator import KermiConfigEntry
 
+DEVICE_FIELDS = ("Name", "DeviceType", "DeviceId")
+
 TO_REDACT = {
     CONF_PASSWORD,
+    CONF_HOST,
+    "title",
     "unique_id",
     "DeviceId",
     "device_id",
@@ -41,7 +45,12 @@ async def async_get_config_entry_diagnostics(
                 "data": dict(entry.data),
                 "options": dict(entry.options),
             },
-            "devices": coordinator.devices,
+            # Only known, harmless fields: the device list may contain more
+            # (addresses, wizard answers, ...) that does not belong in a report.
+            "devices": [
+                {key: dev.get(key) for key in DEVICE_FIELDS if key in dev}
+                for dev in coordinator.devices
+            ],
             "roles": {
                 role.value: dev.get("Name") for role, dev in coordinator.role_devices.items()
             },

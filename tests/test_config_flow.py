@@ -211,3 +211,14 @@ async def test_options_flow_rejects_too_fast_polling(hass: HomeAssistant) -> Non
             result["flow_id"], {CONF_SCAN_INTERVAL: 5}
         )
     assert entry.options == {}
+
+
+@pytest.mark.parametrize("host", ["user@10.0.0.1", "10.0.0.1:99999", "bad host"])
+async def test_user_flow_invalid_host(hass: HomeAssistant, xcenter: FakeXCenter, host: str) -> None:
+    result = await _start(hass)
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {CONF_HOST: host, CONF_PASSWORD: PASSWORD}
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {CONF_HOST: "invalid_host"}
+    assert xcenter.requests == []

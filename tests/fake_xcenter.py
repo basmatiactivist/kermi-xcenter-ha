@@ -56,11 +56,19 @@ class FakeXCenter:
         self.status_code = 0
         self.write_status_code = 0
         self.writes: list[dict[str, Any]] = []
+        self.redirect_login = False
+        self.huge_device_list = False
         self.devices: list[dict[str, Any]] = []
         self.configs: dict[int, list[dict[str, Any]]] = {}
         self.values: dict[tuple[str, str], Any] = {}
         for dev in CATALOG["devices"]:
-            entry = {"DeviceId": dev["id"], "DeviceType": dev["type"], "Name": dev["name"]}
+            entry = {
+                "DeviceId": dev["id"],
+                "DeviceType": dev["type"],
+                "Name": dev["name"],
+                # an extra field that must never end up in diagnostics
+                "IpAddress": "10.11.12.13",
+            }
             if device_serial and dev["type"] == 0:
                 entry["SerialNumber"] = device_serial
             self.devices.append(entry)
@@ -130,11 +138,16 @@ class FakeXCenter:
         endpoint = None
         if path.startswith("/api/") and path.endswith("/" + DEST):
             endpoint = path[len("/api/") : -len(DEST) - 1]
+        if path == "/elsewhere":
+            self.forbidden.append((request.method, path))
+            return self._json({"isValid": True})
         if endpoint not in KNOWN:
             self.forbidden.append((request.method, path))
             return web.Response(status=404)
         if self.fail_all:
             return web.Response(status=500)
+        if endpoint == "Security/Login" and self.redirect_login:
+            raise web.HTTPTemporaryRedirect("/elsewhere")
         if endpoint == "Security/Login":
             self.login_attempts += 1
             body = await request.json()
@@ -154,6 +167,8 @@ class FakeXCenter:
         if endpoint == "Device/GetAllDevices":
             if request.method != "GET":
                 return web.Response(status=405)
+            if self.huge_device_list:
+                return self._json(_wrap([{"Name": "x" * 1024}] * 3000))
             return self._json(_wrap(self.devices) | {"StatusCode": self.status_code})
         body = await request.json()
         if endpoint == "Datapoint/GetConfigsByDeviceType":

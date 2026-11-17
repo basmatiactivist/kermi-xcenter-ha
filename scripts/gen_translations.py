@@ -59,6 +59,34 @@ B = {
     "summer_mode": ("Summer mode", "Sommerbetrieb"),
     "one_time_charge": ("One-time charge", "Einmalladung aktiv"),
 }
+EXC = {
+    "invalid_auth": (
+        "The x-center rejected the password.",
+        "Das x-center hat das Passwort abgelehnt.",
+    ),
+    "catalogue_failed": (
+        "The datapoint catalogue could not be loaded: {error}",
+        "Der Datenpunkt-Katalog konnte nicht geladen werden: {error}",
+    ),
+    "no_datapoints": (
+        "No known datapoints were found in the x-center catalogue.",
+        "Im Katalog des x-center wurden keine bekannten Datenpunkte gefunden.",
+    ),
+    "update_failed": (
+        "Reading from the x-center failed: {error}",
+        "Lesen vom x-center fehlgeschlagen: {error}",
+    ),
+    "no_values": ("The x-center returned no values.", "Das x-center hat keine Werte geliefert."),
+    "write_refused": (
+        "Not sent to the heat pump: {reason}",
+        "Nicht an die Wärmepumpe gesendet: {reason}",
+    ),
+    "write_failed": (
+        "The heat pump did not accept the change: {reason}",
+        "Die Wärmepumpe hat die Änderung nicht angenommen: {reason}",
+    ),
+    "unknown_option": ("Unknown option: {option}", "Unbekannte Option: {option}"),
+}
 BUTTON = {"dhw_one_time_charge_start": ("Heat up hot water once", "Warmwasser einmal aufheizen")}
 NUMBER = {
     "dhw_one_time_setpoint_control": (
@@ -87,6 +115,7 @@ T = {
         title_reauth="Password rejected",
         desc_reauth="The x-center at {host} rejected the stored password. Enter the current password.",
         cannot_connect="Cannot connect to the x-center.",
+        invalid_host="Enter only an IP address or host name, optionally with :port.",
         invalid_auth="The x-center rejected the password.",
         unknown="Unexpected error.",
         already_configured="This x-center is already configured.",
@@ -115,6 +144,7 @@ T = {
         title_reauth="Passwort abgelehnt",
         desc_reauth="Das x-center unter {host} hat das gespeicherte Passwort abgelehnt. Bitte aktuelles Passwort eingeben.",
         cannot_connect="Keine Verbindung zum x-center möglich.",
+        invalid_host="Bitte nur IP-Adresse oder Hostname angeben, optional mit :Port.",
         invalid_auth="Das x-center hat das Passwort abgelehnt.",
         unknown="Unerwarteter Fehler.",
         already_configured="Dieses x-center ist bereits eingerichtet.",
@@ -164,7 +194,9 @@ def build(lang):
                     "data_description": {"password": t["pw_desc"]},
                 },
             },
-            "error": {k: t[k] for k in ("cannot_connect", "invalid_auth", "unknown")},
+            "error": {
+                k: t[k] for k in ("cannot_connect", "invalid_auth", "invalid_host", "unknown")
+            },
             "abort": {
                 k: t[k]
                 for k in (
@@ -193,6 +225,7 @@ def build(lang):
             },
             "error": {"confirm_required": t["confirm_required"]},
         },
+        "exceptions": {k: {"message": v[i]} for k, v in EXC.items()},
         "entity": {
             "sensor": sensor,
             "binary_sensor": {k: {"name": v[i]} for k, v in B.items()},

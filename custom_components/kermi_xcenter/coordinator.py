@@ -64,12 +64,18 @@ class KermiCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 if isinstance(dtype, int) and dtype not in configs:
                     configs[dtype] = await self.client.get_configs_by_device_type(dtype)
         except KermiAuthError as err:
-            raise ConfigEntryAuthFailed(str(err)) from err
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN, translation_key="invalid_auth"
+            ) from err
         except KermiError as err:
-            raise UpdateFailed(f"Catalogue could not be loaded: {err}") from err
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="catalogue_failed",
+                translation_placeholders={"error": str(err)},
+            ) from err
         self.resolved = resolve_datapoints(self.role_devices, configs)
         if not self.resolved:
-            raise UpdateFailed("No known datapoints found in the x-center catalogue")
+            raise UpdateFailed(translation_domain=DOMAIN, translation_key="no_datapoints")
         _LOGGER.debug(
             "Resolved %d datapoints for roles %s",
             len(self.resolved),
@@ -83,14 +89,20 @@ class KermiCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 (rd.config_id, rd.device_id) for rd in self.resolved.values()
             )
         except KermiAuthError as err:
-            raise ConfigEntryAuthFailed(str(err)) from err
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN, translation_key="invalid_auth"
+            ) from err
         except KermiError as err:
             self._back_off()
-            raise UpdateFailed(str(err)) from err
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="update_failed",
+                translation_placeholders={"error": str(err)},
+            ) from err
 
         if not raw:
             self._back_off()
-            raise UpdateFailed("x-center returned no values")
+            raise UpdateFailed(translation_domain=DOMAIN, translation_key="no_values")
 
         if self.failures:
             _LOGGER.info("x-center reachable again after %d failed polls", self.failures)

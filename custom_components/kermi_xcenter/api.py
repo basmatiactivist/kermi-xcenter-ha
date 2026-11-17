@@ -27,9 +27,11 @@ This module has no Home Assistant imports so it can be tested on its own.
 from __future__ import annotations
 
 import asyncio
+import ipaddress
 import json
 import logging
 import math
+import re
 import time
 from collections.abc import Callable, Iterable, Mapping
 from types import MappingProxyType
@@ -37,7 +39,7 @@ from typing import Any, Final
 
 import aiohttp
 
-from .const import READ_CHUNK_SIZE, REQUEST_TIMEOUT, WRITE_MIN_INTERVAL
+from .const import MAX_RESPONSE_BYTES, READ_CHUNK_SIZE, REQUEST_TIMEOUT, WRITE_MIN_INTERVAL
 from .datapoints import DATAPOINTS_BY_KEY, WRITABLE, ResolvedDatapoint
 
 _LOGGER = logging.getLogger(__name__)
@@ -94,6 +96,40 @@ def normalize_host(host: str) -> str:
         if host.lower().startswith(prefix):
             host = host[len(prefix) :]
     return host.split("/", 1)[0].strip()
+
+
+_HOSTNAME = re.compile(
+    r"^(?=.{1,253}$)[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?"
+    r"(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$"
+)
+
+
+def is_valid_host(host: str) -> bool:
+    """Accept only a bare hostname or IP address with an optional port.
+
+    Rejects user info (``user@host``), paths, queries, spaces and other
+    characters that could change where the password is sent.
+    """
+    name, port = host, None
+    if host.startswith("["):  # [IPv6]:port
+        end = host.find("]")
+        if end == -1:
+            return False
+        name, rest = host[1:end], host[end + 1 :]
+        if rest:
+            if not rest.startswith(":"):
+                return False
+            port = rest[1:]
+        try:
+            ipaddress.IPv6Address(name)
+        except ValueError:
+            return False
+    else:
+        if host.count(":") == 1:
+            name, port = host.split(":")
+        if not _HOSTNAME.match(name):
+            return False
+    return port is None or (port.isdigit() and 0 < int(port) < 65536)
 
 
 def _unwrap(body: Any) -> Any:
@@ -211,15 +247,25 @@ class KermiClient:
                 self._url(endpoint),
                 json=dict(payload) if method == "POST" else None,
                 timeout=self._timeout,
+                # Never follow redirects: the password must only go to the
+                # host the user configured.
+                allow_redirects=False,
                 # A fresh connection per request: polls are rare, and stale
                 # keep-alive connections after a back-off would fail.
                 headers={"Connection": "close"},
             ) as resp:
                 if resp.status >= 400:
                     return resp.status, None
+                if resp.status >= 300:
+                    raise KermiConnectionError(f"{endpoint}: unexpected redirect")
+                if (resp.content_length or 0) > MAX_RESPONSE_BYTES:
+                    raise KermiConnectionError(f"{endpoint}: response too large")
+                raw = await resp.content.read(MAX_RESPONSE_BYTES + 1)
+                if len(raw) > MAX_RESPONSE_BYTES:
+                    raise KermiConnectionError(f"{endpoint}: response too large")
                 # stdlib json on purpose: the x-center sends bare NaN literals,
                 # which strict decoders (e.g. orjson used by HA) reject.
-                text = await resp.text()
+                text = raw.decode("utf-8", errors="replace")  # JSON is UTF-8 (RFC 8259)
                 try:
                     body = json.loads(text) if text.strip() else None
                 except ValueError as err:

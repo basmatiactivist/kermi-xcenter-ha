@@ -11,6 +11,7 @@ from custom_components.kermi_xcenter.api import (
     KermiAuthError,
     KermiClient,
     KermiConnectionError,
+    is_valid_host,
     normalize_host,
 )
 from custom_components.kermi_xcenter.identify import async_determine_unique_id
@@ -169,3 +170,46 @@ async def test_unique_id_falls_back_to_interface_device_id(xcenter: FakeXCenter)
     finally:
         await client.close()
     assert uid == xcenter.device_id("Interfacemodul").lower()
+
+
+@pytest.mark.parametrize(
+    ("host", "valid"),
+    [
+        ("192.168.1.50", True),
+        ("xcenter.local", True),
+        ("xcenter:8080", True),
+        ("[fe80::1]:80", True),
+        ("user@192.168.1.50", False),
+        ("a b", False),
+        ("host?x=1", False),
+        ("host#frag", False),
+        ("host:0", False),
+        ("host:70000", False),
+        ("[::1", False),
+        ("", False),
+    ],
+)
+def test_is_valid_host(host: str, valid: bool) -> None:
+    assert is_valid_host(host) is valid
+
+
+async def test_redirects_are_not_followed(xcenter: FakeXCenter) -> None:
+    """The password must never be sent to a redirect target."""
+    xcenter.redirect_login = True
+    client = _client(xcenter)
+    try:
+        with pytest.raises(KermiConnectionError, match="redirect"):
+            await client.login()
+    finally:
+        await client.close()
+    assert xcenter.forbidden == []  # /elsewhere was never requested
+
+
+async def test_oversized_response_rejected(xcenter: FakeXCenter) -> None:
+    xcenter.huge_device_list = True
+    client = _client(xcenter)
+    try:
+        with pytest.raises(KermiConnectionError, match="too large"):
+            await client.get_all_devices()
+    finally:
+        await client.close()

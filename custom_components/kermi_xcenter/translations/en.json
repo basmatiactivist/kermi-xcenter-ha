@@ -39,6 +39,7 @@
     "error": {
       "cannot_connect": "Cannot connect to the x-center.",
       "invalid_auth": "The x-center rejected the password.",
+      "invalid_host": "Enter only an IP address or host name, optionally with :port.",
       "unknown": "Unexpected error."
     },
     "abort": {
@@ -71,6 +72,32 @@
     },
     "error": {
       "confirm_required": "Please tick the confirmation box, or go back and leave control disabled."
+    }
+  },
+  "exceptions": {
+    "invalid_auth": {
+      "message": "The x-center rejected the password."
+    },
+    "catalogue_failed": {
+      "message": "The datapoint catalogue could not be loaded: {error}"
+    },
+    "no_datapoints": {
+      "message": "No known datapoints were found in the x-center catalogue."
+    },
+    "update_failed": {
+      "message": "Reading from the x-center failed: {error}"
+    },
+    "no_values": {
+      "message": "The x-center returned no values."
+    },
+    "write_refused": {
+      "message": "Not sent to the heat pump: {reason}"
+    },
+    "write_failed": {
+      "message": "The heat pump did not accept the change: {reason}"
+    },
+    "unknown_option": {
+      "message": "Unknown option: {option}"
     }
   },
   "entity": {

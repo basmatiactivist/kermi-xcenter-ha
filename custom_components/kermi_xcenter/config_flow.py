@@ -26,7 +26,7 @@ from homeassistant.helpers.selector import (
 )
 
 from . import create_client
-from .api import KermiAuthError, KermiError, normalize_host
+from .api import KermiAuthError, KermiError, is_valid_host, normalize_host
 from .const import (
     CONF_ALLOW_WRITES,
     CONF_CONFIRM_WRITES,
@@ -60,6 +60,9 @@ class KermiConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def _async_try(self, host: str, password: str, errors: dict[str, str]) -> str | None:
+        if not is_valid_host(host):
+            errors[CONF_HOST] = "invalid_host"  # nothing is sent anywhere
+            return None
         try:
             return await async_validate(self.hass, host, password)
         except KermiAuthError:

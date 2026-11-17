@@ -4,12 +4,14 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, NoReturn
 
+from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from .api import KermiError, KermiWriteRefusedError
 from .const import DOMAIN, MANUFACTURER
 from .coordinator import KermiCoordinator
 from .datapoints import ROLE_DEVICE_NAMES, Role
@@ -96,3 +98,19 @@ class KermiEntity(CoordinatorEntity[KermiCoordinator]):
 def supported(coordinator: KermiCoordinator, description: KermiEntityDescription) -> bool:
     """Whether all datapoints of a description were found in the catalogue."""
     return all(key in coordinator.resolved for key in description.datapoints)
+
+
+def raise_write_error(err: KermiError) -> NoReturn:
+    """Turn a client error of a control action into a translated HA error."""
+    if isinstance(err, KermiWriteRefusedError):
+        # Refused by the guard: a user/configuration issue, nothing was sent.
+        raise ServiceValidationError(
+            translation_domain=DOMAIN,
+            translation_key="write_refused",
+            translation_placeholders={"reason": str(err)},
+        ) from err
+    raise HomeAssistantError(
+        translation_domain=DOMAIN,
+        translation_key="write_failed",
+        translation_placeholders={"reason": str(err)},
+    ) from err

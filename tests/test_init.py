@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import timedelta
 from pathlib import Path
 
@@ -195,6 +196,10 @@ async def test_diagnostics_redacted(hass: HomeAssistant, xcenter: FakeXCenter) -
         assert dev["DeviceId"].lower() not in text
     assert diag["values"]["hp_flow_temp"] == pytest.approx(31.7)
     assert diag["values"]["hp_serial"] == "**REDACTED**"
+    assert xcenter.host not in text
+    assert diag["entry"]["data"][CONF_HOST] == "**REDACTED**"
+    assert "10.11.12.13" not in text  # unknown device fields are dropped
+    assert {key for dev in diag["devices"] for key in dev} <= {"Name", "DeviceType", "DeviceId"}
 
 
 def test_translations_complete() -> None:
@@ -211,6 +216,11 @@ def test_translations_complete() -> None:
             SELECTS[0].options
         )
         assert "confirm_writes" in data["options"]["step"]
+        for path in PACKAGE.glob("*.py"):
+            for key in re.findall(r'translation_key="([a-z_]+)"', path.read_text("utf-8")):
+                if "translation_domain" in path.read_text("utf-8"):
+                    in_entities = any(key in v for v in data["entity"].values())
+                    assert key in data["exceptions"] or in_entities, (name, path.name, key)
         states = data["entity"]["sensor"]["energy_mode"]["state"]
         assert set(states) == {"off", "eco", "normal", "comfort", "custom"}
     de = json.loads((PACKAGE / "translations/de.json").read_text("utf-8"))

@@ -21,6 +21,9 @@ REQUEST_TIMEOUT: Final = 15  # seconds per HTTP request
 # The x-center API rejects or silently empties very large reads.
 READ_CHUNK_SIZE: Final = 40
 
+# Largest response body accepted (the full catalogue is about 30 kB).
+MAX_RESPONSE_BYTES: Final = 2 * 1024 * 1024
+
 # Writes (only when the user enabled them in the options; default off).
 CONF_ALLOW_WRITES: Final = "allow_writes"
 CONF_CONFIRM_WRITES: Final = "confirm_writes"
