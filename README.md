@@ -9,6 +9,28 @@ und Binärsensoren in Home Assistant bereit.
 > weder unterstützt noch geprüft. «Kermi», «x-center» und «x-change» sind Marken ihrer
 > jeweiligen Inhaber.
 
+## Unterstützte Anlagen
+
+Die Datenpunkte stammen aus dem Live-Katalog **einer** Anlage:
+
+- x-center Interfacemodul
+- Wärmepumpe *x-change dynamic pro S AW E* mit **Rubin-Firmware** (WP 3.8.8)
+- Puffermodule «Heizen» und «Trinkwassererwärmung» (1.5.33)
+
+Einschränkungen:
+
+- **Klassische x-center-Firmware wird nicht unterstützt.** Ältere Anlagen mit `HP_*`-Datenpunkten
+  (z. B. Energiezähler in kWh, SCOP) haben andere Datenpunkte. Dort findet die Integration wenig oder
+  nichts, und die Einrichtung bricht mit «keine bekannten Datenpunkte» ab. Für solche Anlagen eignet
+  sich [kermi-ha-bridge](https://github.com/m-zenker/kermi-ha-bridge).
+- **Gerätenamen:** Die Geräte werden über ihre Namen gefunden («x-change», «Heizen»,
+  «Trinkwasser»), wie sie die deutschsprachige x-center-Oberfläche liefert. Bei anderen Namen
+  fehlen die betroffenen Geräte. Die Wärmepumpe wird ersatzweise über ihren Gerätetyp erkannt.
+- **Heizkreis:** Unterstützt wird ein Heizkreis.
+- **Teststand:** Version 0.1.0 ist bisher nur gegen einen Nachbau der API getestet, der aus
+  diesem Katalog gebaut ist. Erfahrungsberichte von anderen Anlagen sind willkommen, bitte als
+  Issue mit heruntergeladenen Diagnosedaten. Diese sind geschwärzt.
+
 ## Standard: nur lesen – technisch erzwungen
 
 Ohne ausdrückliche Freigabe wird an der Wärmepumpe **nie** etwas verändert. Das ist im Code
